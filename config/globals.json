@@ -1,0 +1,9 @@
+{
+  "globals": {
+    "models": true,
+    "strapi": true,
+    "async": true,
+    "_": true,
+    "graphql": true
+  }
+}

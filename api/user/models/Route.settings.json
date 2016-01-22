@@ -1,0 +1,39 @@
+{
+  "identity": "route",
+  "connection": "permanent",
+  "displayName": "name",
+  "schema": true,
+  "displayedAttribute": "name",
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "policies": {
+      "type": "array"
+    },
+    "controller": {
+      "type": "string"
+    },
+    "action": {
+      "type": "string"
+    },
+    "isPublic": {
+      "type": "boolean",
+      "defaultsTo": false
+    },
+    "registeredAuthorized": {
+      "type": "boolean",
+      "defaultsTo": false
+    },
+    "contributorsAuthorized": {
+      "type": "boolean",
+      "defaultsTo": false
+    },
+    "roles": {
+      "collection": "role",
+      "via": "routes"
+    }
+  },
+  "autoCreatedAt": true,
+  "autoUpdatedAt": true
+}

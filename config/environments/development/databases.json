@@ -1,0 +1,31 @@
+{
+  "orm": {
+    "adapters": {
+      "disk": "sails-disk",
+      "postgresql": "sails-postgresql"
+    },
+    "defaultConnection": "default",
+    "connections": {
+      "default": {
+        "adapter": "disk",
+        "filePath": ".tmp/",
+        "fileName": "default.db",
+        "migrate": "alter"
+      },
+      "permanent": {
+        "adapter": "disk",
+        "filePath": "./data/",
+        "fileName": "permanent.db",
+        "migrate": "alter"
+      },
+      "pg": {
+        "adapter": "postgresql",
+        "host": "localhost",
+        "port": 5432,
+        "user": "Miran",
+        "password": "",
+        "database": "Miran"
+      }
+    }
+  }
+}

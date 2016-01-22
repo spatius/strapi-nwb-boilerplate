@@ -1,0 +1,53 @@
+{
+  "identity": "user",
+  "connection": "default",
+  "schema": true,
+  "limit": 20,
+  "defaultTemplate": "default",
+  "displayedAttribute": "username",
+  "attributes": {
+    "username": {
+      "type": "string",
+      "minLength": 3,
+      "unique": true
+    },
+    "email": {
+      "type": "email",
+      "minLength": 6,
+      "unique": true
+    },
+    "lang": {
+      "type": "string",
+      "required": true
+    },
+    "template": {
+      "type": "string",
+      "required": true
+    },
+    "id_ref": {
+      "type": "int"
+    },
+    "provider": {
+      "type": "string"
+    },
+    "password": {
+      "type": "string",
+      "minLength": 6
+    },
+    "resetPasswordToken": {
+      "type": "string"
+    },
+    "roles": {
+      "collection": "role",
+      "via": "users",
+      "dominant": true
+    },
+    "filesCreated": {
+      "collection": "upload",
+      "via": "createdBy"
+    }
+  },
+  "autoCreatedAt": true,
+  "autoUpdatedAt": true,
+  "migrate": "alter"
+}
