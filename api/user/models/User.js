@@ -82,7 +82,7 @@ module.exports = {
 
       // Merge model type with template validations
       const templateAttributes = _.merge(_.pick(strapi.models[module].attributes, 'lang'), strapi.api[module].templates[template].attributes);
-      const err = [];
+      var err = {};
 
       _.forEach(templateAttributes, function (rules, key) {
         if (values.hasOwnProperty(key) || key === 'lang') {
@@ -95,14 +95,14 @@ module.exports = {
             const rulesTest = anchor(values[key]).to(rules);
 
             if (rulesTest) {
-              err.push(rulesTest[0]);
+              err[key] = rulesTest;
             }
           }
-        } else {
-          rules.required && err.push({
+        } else if(rules.required) {
+          err[key] = [{
             rule: 'required',
             message: 'Missing attributes ' + key
-          });
+          }];
         }
       });
 

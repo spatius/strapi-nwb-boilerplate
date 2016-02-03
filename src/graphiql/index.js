@@ -1,34 +1,33 @@
+import "./index.css";
+
 import React from 'react';
 import { Route, Link } from 'react-router';
 import GraphiQL from 'graphiql';
-import fetch from 'isomorphic-fetch';
-import URI from "urijs";
+import Helmet from "react-helmet";
 
-// import withStyles from "../decorators/withStyles";
-import s from "./index.css";
+import { HeaderLink } from "../elements";
+import { get } from "../fetch";
 
-// import "graphiql/graphiql.css";
-
-function graphQLFetcher (graphQLParams) {
+function graphQLFetcher(graphQLParams) {
   console.log(graphQLParams);
 
-  return fetch(URI(window.location.origin + '/graphql').query(graphQLParams), {
-    method: 'get',
-    headers: { 'Content-Type': 'application/json' },
-    // body: JSON.stringify(graphQLParams)
-  }).then(response => response.json());
+  return get('graphql', graphQLParams);
 }
 
-// @withStyles(s)
 function GraphiqlView(props) {
   return (
-    <article className={s.root}>
+    <div className="graphiql">
+      <Helmet title="Graphiql" titleTemplate="Blog - %s"/>
+
       <GraphiQL fetcher={graphQLFetcher} />
-      <Link to="/" className="btn">Home</Link>
-    </article>
+    </div>
   );
 }
 
+export const headerLink = (
+  <HeaderLink name="Graphiql" path="/graphiql"/>
+);
+
 export const route = (
-  <Route path="graphiql" component={GraphiqlView} />
+  <Route path="/graphiql" component={GraphiqlView} />
 );

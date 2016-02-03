@@ -1,6 +1,6 @@
 {
   "identity": "user",
-  "connection": "default",
+  "connection": "pg",
   "schema": true,
   "limit": 20,
   "defaultTemplate": "default",

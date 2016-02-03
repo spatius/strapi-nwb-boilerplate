@@ -1,17 +1,25 @@
-import React from 'react';
-import { Route, Link } from 'react-router';
+import "./index.css";
 
-import s from "./index.css";
+import React from 'react';
+import { Route } from 'react-router';
+import Helmet from "react-helmet";
+
+import { Heading, HeaderLink } from "../elements";
 
 function PostsView(props) {
   return (
-    <article className={s.root}>
-      <h1>Posts</h1>
-      <Link to="/" className="btn">Home</Link>
-    </article>
+    <div className="posts">
+      <Helmet title="Posts" titleTemplate="Blog - %s"/>
+
+      <Heading title="Posts"/>
+    </div>
   );
 }
 
+export const headerLink = (
+  <HeaderLink name="Posts" path="/posts"/>
+);
+
 export const route = (
-  <Route path="posts" component={PostsView} />
+  <Route path="/posts" component={PostsView} />
 );

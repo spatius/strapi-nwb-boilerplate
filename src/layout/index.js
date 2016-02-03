@@ -1,22 +1,44 @@
-import React from 'react';
+import "./index.css";
+
+import React, { Component, PropTypes } from 'react';
 import { Route } from 'react-router';
 import { connect } from 'react-redux';
+import { propTypes, contextTypes } from 'react-props-decorators';
 
-import s from "./index.css";
+import actions from "../auth/actions";
 
-function Layout({ children }) {
-  return (
-    <div className={s.root}>
-      {children}
-    </div>
-  );
+import Header from "./header";
+
+@connect(
+  state => state,
+  actions
+)
+@propTypes({
+  auth: PropTypes.object.isRequired,
+  fetchUser: PropTypes.func.isRequired
+})
+@contextTypes({
+  router: PropTypes.object.isRequired
+})
+export default class Layout extends Component {
+  render() {
+    const { auth: { loggedIn, user }, fetchUser, children } = this.props;
+    const { router } = this.context;
+
+    if(loggedIn && !user)
+      fetchUser();
+
+    return (
+      <div className="layout">
+        <div className="layout-header">
+          {/* Pass children to refresh the header when route changes */}
+          <Header children={children}/>
+        </div>
+
+        <div className="layout-content">
+          {children}
+        </div>
+      </div>
+    );
+  }
 }
-
-// REDUX: Which props do we want to inject, given the global state?
-function select(state) {
-  return {
-    data: state
-  };
-}
-
-export default connect(select)(Layout);

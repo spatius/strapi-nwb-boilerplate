@@ -3,16 +3,21 @@ module.exports = {
   type: 'react-app',
 
   babel: {
-    plugins: [
-
-    ]
-  },
-
-  loaders: {
-    css: {
-      query: {
-        modules: true
-      }
-    }
+    stage: 0,
+    optional: ['runtime']
   }
+
+  // babel: {
+  //   plugins: [
+  //
+  //   ]
+  // },
+  //
+  // loaders: {
+  //   css: {
+  //     query: {
+  //       modules: true
+  //     }
+  //   }
+  // }
 }

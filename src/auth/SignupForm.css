@@ -1,0 +1,14 @@
+:local .padding {
+  margin: 0;
+  padding: 0.25em;
+  font-size: 100%;
+}
+
+:local .valign {
+  margin: 0.5em 0 0.2em;
+}
+
+:local .label {
+    font-weight: bold;
+    text-align: right;
+}

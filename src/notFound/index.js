@@ -1,14 +1,18 @@
-import React from 'react';
-import { Route, Link } from 'react-router';
+import "./index.css";
 
-import s from "./index.css";
+import React from 'react';
+import { Route } from 'react-router';
+import Helmet from "react-helmet";
+
+import { Heading } from "../elements";
 
 function NotFoundView(props) {
   return (
-    <article className={s.root}>
-      <h1>Page not found.</h1>
-      <Link to="/" className="btn">Home</Link>
-    </article>
+    <div className="notFound">
+      <Helmet title="Page not found" titleTemplate="Blog - %s"/>
+
+      <Heading title="Page not found"/>
+    </div>
   );
 }
 

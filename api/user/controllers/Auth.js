@@ -95,9 +95,7 @@ module.exports = {
         }
       } catch (err) {
         ctx.status = 500;
-        return ctx.body = {
-          message: err.message
-        };
+        return ctx.body = err;
       }
     } else {
       // Connect the user thanks to the third-party provider.
@@ -107,9 +105,7 @@ module.exports = {
         ctx.redirect(strapi.config.frontendUrl || strapi.config.url + '?jwt=' + strapi.api.user.services.jwt.issue(user) + '&user=' + JSON.stringify(user));
       } catch (err) {
         ctx.status = 500;
-        return ctx.body = {
-          message: err.message
-        };
+        return ctx.body = err;
       }
     }
   },
@@ -128,24 +124,36 @@ module.exports = {
     });
 
     // Password is required.
-    if (!params.password) {
-      ctx.status = 400;
-      return ctx.body = {
-        message: 'Invalid password field.'
-      };
-    }
+    // if (!params.password) {
+    //   ctx.status = 400;
+    //   return ctx.body = {
+    //     message: 'Invalid password field.'
+    //   };
+    // }
 
     // Throw an error if the password selected by the user
     // contains more than two times the symbol '$'.
-    if (strapi.api.user.services.user.isHashed(params.password)) {
-      ctx.status = 400;
-      return ctx.body = {
-        message: 'Your password can not contain more than three times the symbol `$`.'
-      };
-    }
+    // if (strapi.api.user.services.user.isHashed(params.password)) {
+    //   ctx.status = 400;
+    //   return ctx.body = {
+    //     message: 'Your password can not contain more than three times the symbol `$`.'
+    //   };
+    // }
 
     // First, check if the user is the first one to register.
     try {
+      const errors = yield new Promise(function(resolve, reject) {
+        User.validate(params, function(errors) {
+          resolve(errors);
+        });
+      });
+
+      if(!_.isEmpty(errors)) {
+        throw {
+          invalidAttributes: errors
+        };
+      }
+
       const usersCount = yield User.count();
 
       // Create the user
@@ -172,9 +180,7 @@ module.exports = {
       };
     } catch (err) {
       ctx.status = 500;
-      return ctx.body = {
-        message: err.message
-      };
+      return ctx.body = err;
     }
   },
 
@@ -210,9 +216,7 @@ module.exports = {
       }
     } catch (err) {
       this.status = 500;
-      return this.body = {
-        message: err.message
-      };
+      return this.body = err;
     }
 
     // Generate random token.
@@ -226,9 +230,7 @@ module.exports = {
       user = yield user.save();
     } catch (err) {
       this.status = 500;
-      return this.body = {
-        message: err.message
-      };
+      return this.body = err;
     }
 
     // Send an email to the user.
@@ -286,9 +288,7 @@ module.exports = {
         };
       } catch (err) {
         this.status = 500;
-        return this.body = {
-          message: err.message
-        };
+        return this.body = err;
       }
     } else if (params.password && params.passwordConfirmation && params.password !== params.passwordConfirmation) {
       this.status = 400;
