@@ -1,3 +1,2 @@
 # strapi-nwb-boilerplate
-`npm i
-npm run strapi`
+`npm i && npm run strapi`
