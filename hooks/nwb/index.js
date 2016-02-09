@@ -19,8 +19,6 @@ var readFileThunk = function(src) {
 }
 
 module.exports = function(strapi) {
-  // const router = strapi.middlewares.router();
-
   var options = {
     autoInstall: true,
     reload: true
@@ -51,12 +49,14 @@ module.exports = function(strapi) {
 
   strapi.app.use(require('koa-webpack-hot-middleware')(compiler));
 
-  // router.get("*", function*(next) {
-  //   this.body = yield readFileThunk('public/index.html');
-  //   yield next;
-  // });
-
   strapi.app.use(function*() {
-    this.body = yield readFileThunk('public/index.html');
+    this.body = yield* serve(this);
   });
+}
+
+function* serve(context) {
+  if(context.originalUrl.indexOf("admin") > -1)
+    return yield readFileThunk('public/admin/index.html');
+
+  return yield readFileThunk('public/index.html');
 }
