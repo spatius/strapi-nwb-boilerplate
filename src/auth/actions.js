@@ -16,15 +16,16 @@ function parseError(error) {
     for(let key of Object.keys(invalidAttributes)) {
       result[key] = invalidAttributes[key].map(error => {
         switch(error.rule) {
-          case "required": return "Required";
-          case "minLength": return "Too short";
-          case "maxLength": return "Too long";
-          case "unique": return "Already taken";
+          case "required": return "required";
+          case "minLength": return "too short";
+          case "maxLength": return "too long";
+          case "unique": return "already taken";
           default: return error.rule;
         }
       });
     }
-  }
+  } else
+    result._error = error.message || error;
 
   console.log(result, error);
 
@@ -41,7 +42,7 @@ function signin({ email, password }) {
   })
   .catch(error => {
     throw Object.assign({
-      _error: "Signin failed!"
+      _error: "Login failed!"
     }, parseError(error));
   });
 }
@@ -56,7 +57,7 @@ function signup({ username, email, password }) {
   })
   .catch(error => {
     throw Object.assign({
-      _error: "Signup failed!"
+      _error: "Registration failed!"
     }, parseError(error));
   });
 }

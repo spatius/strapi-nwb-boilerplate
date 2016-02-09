@@ -1,0 +1,56 @@
+@import (reference) '../../kube/kube.less';
+
+.header {
+  display: inline-block;
+
+  padding: 40px 48px 39px 48px;
+
+  width: 100%;
+
+  background-color: #FAFAFA;
+  border-top: 4px solid #333333;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+
+  &.fixed {
+    position: fixed;
+
+    top: 0px;
+    left: 0px;
+    width: 100%;
+  }
+
+  a {
+    text-decoration: none;
+
+    color: rgba(0, 0, 0, 0.5);
+
+    &:hover {
+      color: rgba(0, 0, 0, 1);
+    }
+  }
+
+  ul {
+    display: inline-block;
+
+    margin: 0px;
+    list-style: none;
+
+    &.right {
+      float: right;
+
+      text-align: right;
+
+      li {
+        margin-left: 24px;
+      }
+    }
+
+    li {
+      display: inline-block;
+    }
+  }
+
+  .brand {
+    .bold;
+  }
+}

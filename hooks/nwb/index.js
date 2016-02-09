@@ -58,5 +58,9 @@ function* serve(context) {
   if(context.originalUrl.indexOf("admin") > -1)
     return yield readFileThunk('public/admin/index.html');
 
+  // TODO: Move me to the admin
+  if(context.originalUrl.indexOf("graphiql") > -1)
+    return yield readFileThunk('public/graphiql.html');
+
   return yield readFileThunk('public/index.html');
 }

@@ -6,7 +6,8 @@
   "scripts": {
     "build": "nwb build",
     "clean": "nwb clean",
-    "start": "cross-env NODE_ENV=development nodemon server.js",
+    "start": "cross-env NODE_ENV=development node server.js",
+    "nodemon": "cross-env NODE_ENV=development nodemon server.js",
     "test": "nwb test"
   },
   "dependencies": {
@@ -29,8 +30,6 @@
     "koa-static": "^2.0.0",
     "lodash": "^4.2.1",
     "nodemailer": "^2.1.0",
-    "pure-css": "^1.0.4",
-    "purecss": "^0.6.0",
     "purest": "~2.0.0",
     "react": "^0.14.7",
     "react-css-modules": "^3.7.4",
@@ -60,6 +59,7 @@
     "koa-webpack-hot-middleware": "^1.0.3",
     "nodemon": "^1.8.1",
     "nwb": "0.7.x",
+    "nwb-less": "^0.5.0",
     "strapi-generate": "~1.5.0",
     "strapi-generate-api": "~1.5.0",
     "strapi-generate-email": "~1.5.0",

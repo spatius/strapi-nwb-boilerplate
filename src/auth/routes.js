@@ -5,6 +5,6 @@ import SigninView from "./SigninView";
 import SignupView from "./SignupView";
 
 export default [
-  <Route path="/signin" component={SigninView} />,
-  <Route path="/signup" component={SignupView} />
+  <Route name="Sign in" path="/signin" component={SigninView} />,
+  <Route name="Sign up" path="/signup" component={SignupView} />
 ];

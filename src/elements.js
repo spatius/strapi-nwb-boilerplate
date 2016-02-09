@@ -1,6 +1,7 @@
+import "./elements.less";
+
 import React, { Component, PropTypes } from 'react';
 import { Link, isActive } from 'react-router';
-import classnames from "classnames";
 import { propTypes, contextTypes } from 'react-props-decorators';
 
 @propTypes({
@@ -15,13 +16,12 @@ export class HeaderLink extends Component {
     const { name, path, onClick } = this.props;
     const { router } = this.context;
 
-    var classes = {
-      "pure-menu-item": true,
-      "pure-menu-selected": !!path && router.isActive(path)
-    };
+    var element = !!path && router.isActive(path)
+      ? name
+      : <Link to={path || "/"} onClick={onClick}>{name}</Link>;
 
     return (
-      <li className={classnames(classes)}><Link to={path || "/"} onClick={onClick} className="pure-menu-link">{name}</Link></li>
+      <li>{element}</li>
     );
   }
 };
@@ -34,16 +34,8 @@ export class Heading extends Component {
     const {title} = this.props;
 
     return (
-      <div className="splash-container">
-        <div className="splash">
-          <h1 className="splash-head">{title}</h1>
-          {/*<p className="splash-subhead">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-          </p>
-          <p>
-              <a href="http://purecss.io" className="pure-button pure-button-primary">Get Started</a>
-          </p>*/}
-        </div>
+      <div className="heading">
+        <h1>{title}</h1>
       </div>
     );
   }

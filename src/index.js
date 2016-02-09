@@ -1,7 +1,6 @@
-import "purecss/build/pure.css";
+import "./kube/kube.less";
 // import "bootstrap-css-only/css/bootstrap.css";
-import "graphiql/graphiql.css";
-import "./index.css";
+// import "./index.css";
 
 // Import all the third party stuff
 // import "babel-polyfill";
@@ -61,9 +60,8 @@ import Layout from "./layout";
 
 const routes = [
   require("./home").route,
-  require("./about").route,
+  // require("./about").route,
   require("./posts").route,
-  require("./graphiql").route,
   ...require("./auth/routes"),
   require("./notFound").route
 ];
