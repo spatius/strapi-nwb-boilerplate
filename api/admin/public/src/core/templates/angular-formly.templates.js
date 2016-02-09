@@ -20,7 +20,7 @@
         '	       ng-model=\"model[options.key]\">');
 
       $templateCache.put('templates/angular-formly/textarea-template.html',
-        '<textarea' +
+        '<ng-quill-editor style="height: initial" toolbar="true" link-tooltip="true" image-tooltip="true" toolbar-entries="font size bold list bullet italic underline strike align color background link image" editor-required="true" required="" error-class="input-error"' +
         '	       class=\"form-control\"' +
         '	       id=\"{{id}}\"' +
         '	       formly-dynamic-name=\"id\"' +
@@ -29,7 +29,7 @@
         '	       aria-describedby=\"{{id}}_description\"' +
         '	       ng-required=\"options.templateOptions.required\"' +
         '	       ng-disabled=\"options.templateOptions.disabled\"' +
-        '	       ng-model=\"model[options.key]\"><\/textarea>');
+        '	       ng-model=\"model[options.key]\"><\/ng-quill-editor>');
 
       $templateCache.put('templates/angular-formly/input-checkbox.html',
         '<input type=\"checkbox\"' +

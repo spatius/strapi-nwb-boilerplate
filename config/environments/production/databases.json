@@ -24,7 +24,7 @@
         "port": 5432,
         "user": "Miran",
         "password": "",
-        "database": "Miran"
+        "database": "strapi-nwb"
       }
     }
   }

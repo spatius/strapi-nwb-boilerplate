@@ -45,6 +45,10 @@
     "filesCreated": {
       "collection": "upload",
       "via": "createdBy"
+    },
+    "pages": {
+      "collection": "page",
+      "via": "contributors"
     }
   },
   "autoCreatedAt": true,

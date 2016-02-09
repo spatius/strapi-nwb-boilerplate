@@ -61,6 +61,7 @@ import Layout from "./layout";
 
 const routes = [
   require("./home").route,
+  require("./about").route,
   require("./posts").route,
   require("./graphiql").route,
   ...require("./auth/routes"),

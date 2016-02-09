@@ -1,7 +1,9 @@
-var strapi = require("strapi");
-var nwb = require("./hooks/nwb");
+'use strict';
 
 process.chdir(__dirname);
+
+var strapi = require("strapi");
+var nwb = require("./hooks/nwb");
 
 strapi.start(function(error, strapi) {
   // Enable post graphql
@@ -17,3 +19,5 @@ strapi.start(function(error, strapi) {
 
   nwb(strapi);
 });
+
+// nwb(strapi);

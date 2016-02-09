@@ -10,6 +10,7 @@ import AuthLink from "../../auth/headerLink";
 
 const links = [
   require("../../home").headerLink,
+  require("../../about").headerLink,
   require("../../posts").headerLink,
   require("../../graphiql").headerLink,
   // require("../../auth/headerLink").default

@@ -1,0 +1,18 @@
+{
+  "default": {
+    "attributes": {
+      "title": {
+        "required": true,
+        "maxLength": 30
+      },
+      "content": {
+        "required": true
+      },
+      "metaDescription": {
+        "maxLength": 100
+      },
+      "published": {}
+    },
+    "displayedAttribute": "title"
+  }
+}

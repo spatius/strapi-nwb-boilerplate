@@ -1,0 +1,44 @@
+{
+  "identity": "page",
+  "connection": "pg",
+  "defaultTemplate": "default",
+  "displayedAttribute": "",
+  "schema": true,
+  "attributes": {
+  "title": {
+    "type": "string"
+  },
+  "content": {
+    "type": "text"
+  },
+  "metaDescription": {
+    "type": "string"
+  },
+  "published": {
+    "type": "boolean"
+  },
+  "lang": {
+    "type": "string",
+    "required": true
+  },
+  "template": {
+    "type": "string",
+    "required": true
+  },
+  "id_ref": {
+    "type": "int"
+  },
+  "createdBy": {
+    "model": "user"
+  },
+  "updatedBy": {
+    "model": "user"
+  },
+  "contributors": {
+    "collection": "user",
+    "via": "pages"
+  }
+},
+  "autoCreatedAt": true,
+  "autoUpdatedAt": true
+}

@@ -83,7 +83,7 @@ gulp.task('styles', ['clean-css'], function () {
     './src/**/*.scss',
     '!./src/**/_*.scss'
   ])
-    .pipe(g.sass())
+    .pipe(g.sass({ includePaths: [ "./bower_components" ] }))
     .pipe(replace({
       patterns: [{
         match: 'backendUrl',
