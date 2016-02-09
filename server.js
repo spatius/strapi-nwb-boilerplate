@@ -5,7 +5,7 @@ process.chdir(__dirname);
 var strapi = require("strapi");
 var nwb = require("./hooks/nwb");
 
-strapi.start(function(error, strapi) {
+strapi.start({}, function(error, strapi) {
   // Enable post graphql
   // if (strapi.config.graphql.enabled === true) {
   //   // Wait GraphQL schemas generation
@@ -19,5 +19,3 @@ strapi.start(function(error, strapi) {
 
   nwb(strapi);
 });
-
-// nwb(strapi);

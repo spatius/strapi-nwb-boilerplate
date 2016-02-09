@@ -6,8 +6,7 @@
   "scripts": {
     "build": "nwb build",
     "clean": "nwb clean",
-    "strapi": "cross-env NODE_ENV=development nodemon server.js",
-    "nwb": "cross-env NODE_ENV=development nodemon nwb-server.js",
+    "start": "cross-env NODE_ENV=development nodemon server.js",
     "test": "nwb test"
   },
   "dependencies": {
