@@ -1,5 +1,5 @@
 import { createAction } from 'redux-actions';
-import { routeActions } from 'react-router-redux'
+import { routeActions } from 'react-router-redux';
 
 import { get, post } from "../fetch";
 
@@ -69,9 +69,8 @@ function signout() {
   };
 }
 
-// ???
 function fetchUser() {
-  return (dispatch, getState) => get("user/" + localStorage.getItem("uid"), { token: localStorage.getItem("jwt") })
+  return (dispatch, getState) => get("/api/user/" + localStorage.getItem("uid"), { token: localStorage.getItem("jwt") })
   .then(response => {
     response = {
       user: response,

@@ -27,7 +27,8 @@ openSansObserver.check().then(() => {
 const rootReducer = combineReducers({
   router: routeReducer,
   form: formReducer,
-  auth: require("./auth/reducers")
+  auth: require("./auth/reducers"),
+  page: require("./page/reducers")
 });
 
 export default function configureStore ({ initialState = {}, history }) {
@@ -60,7 +61,7 @@ import Layout from "./layout";
 
 const routes = [
   require("./home").route,
-  // require("./about").route,
+  require("./page/routes"),
   require("./posts").route,
   ...require("./auth/routes"),
   require("./notFound").route

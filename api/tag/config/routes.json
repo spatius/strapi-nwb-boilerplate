@@ -1,0 +1,57 @@
+{
+  "routes": {
+    "GET /tag": {
+      "controller": "Tag",
+      "action": "find",
+      "policies": [
+        "isAuthorized"
+      ]
+    },
+    "GET /tag/:id": {
+      "controller": "Tag",
+      "action": "findOne",
+      "policies": [
+        "isAuthorized"
+      ]
+    },
+    "POST /tag": {
+      "controller": "Tag",
+      "action": "create",
+      "policies": [
+        "isAuthorized",
+        "addDataCreate"
+      ]
+    },
+    "PUT /tag/:id": {
+      "controller": "Tag",
+      "action": "update",
+      "policies": [
+        "isAuthorized",
+        "addDataUpdate"
+      ]
+    },
+    "DELETE /tag/:id": {
+      "controller": "Tag",
+      "action": "destroy",
+      "policies": [
+        "isAuthorized"
+      ]
+    },
+    "POST /tag/:parentId/:relation": {
+      "controller": "Tag",
+      "action": "add",
+      "policies": [
+        "isAuthorized",
+        "addDataCreate"
+      ]
+    },
+    "DELETE /tag/:parentId/:relation/:id": {
+      "controller": "Tag",
+      "action": "remove",
+      "policies": [
+        "isAuthorized",
+        "addDataUpdate"
+      ]
+    }
+  }
+}

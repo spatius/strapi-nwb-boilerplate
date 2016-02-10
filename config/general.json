@@ -6,7 +6,7 @@
     "path": "favicon.ico",
     "maxAge": 86400000
   },
-  "prefix": "",
+  "prefix": "/api",
   "blueprints": {
     "defaultLimit": 30,
     "populate": true

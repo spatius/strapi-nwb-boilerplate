@@ -29,7 +29,7 @@
     });
     // Produce a Location query string from a parameter object.
     function locationQuery(params) {
-      return '/graphql?' + Object.keys(params).map(function (key) {
+      return '/api/graphql?' + Object.keys(params).map(function (key) {
         return encodeURIComponent(key) + '=' +
           encodeURIComponent(params[key]);
       }).join('&');

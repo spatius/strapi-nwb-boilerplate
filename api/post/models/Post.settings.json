@@ -1,5 +1,5 @@
 {
-  "identity": "page",
+  "identity": "post",
   "connection": "pg",
   "defaultTemplate": "default",
   "displayedAttribute": "",
@@ -14,21 +14,14 @@
     "metaDescription": {
       "type": "string"
     },
-    "published": {
-      "type": "boolean"
-    },
     "keywords": {
       "type": "string"
     },
-    "createdBy": {
-      "model": "user"
+    "published": {
+      "type": "boolean"
     },
-    "updatedBy": {
-      "model": "user"
-    },
-    "contributors": {
-      "collection": "user",
-      "via": "pages"
+    "thumbnail": {
+      "type": "string"
     },
     "lang": {
       "type": "string",
@@ -40,6 +33,20 @@
     },
     "id_ref": {
       "type": "int"
+    },
+    "createdBy": {
+      "model": "user"
+    },
+    "updatedBy": {
+      "model": "user"
+    },
+    "contributors": {
+      "collection": "user",
+      "via": "posts"
+    },
+    "tags": {
+      "collection": "tag",
+      "via": "posts"
     }
   },
   "autoCreatedAt": true,

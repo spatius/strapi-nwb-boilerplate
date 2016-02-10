@@ -30,6 +30,8 @@ export default class Layout extends Component {
     const name = tail.length ? tail[tail.length - 1].name : "???";
     const title = tail.map(({ name }) => name).join(" / ");
 
+    document.title = "Blog - " + title;
+
     if(loggedIn && !user)
       fetchUser();
 
@@ -38,7 +40,7 @@ export default class Layout extends Component {
         <Header routes={tail} children={children}/>
         <Header routes={tail} children={children} classes={{fixed: true}}/>
 
-        <Helmet title={title} titleTemplate="Blog - %s"/>
+        {/*<Helmet title={title} titleTemplate="Blog - %s"/>*/}
 
         <Heading title={name}/>
 

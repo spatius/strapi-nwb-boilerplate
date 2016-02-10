@@ -11,10 +11,13 @@
       "metaDescription": {
         "maxLength": 100
       },
-      "published": {},
       "keywords": {
         "maxLength": 100
-      }
+      },
+      "published": {
+        "required": true
+      },
+      "thumbnail": {}
     },
     "displayedAttribute": "title"
   }

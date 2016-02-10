@@ -28,6 +28,6 @@ export default class AuthLink extends Component {
     if(router.isActive("/signup"))
       return <HeaderLink name="Sign in" path="/signin"/>;
 
-    return <HeaderLink name="Sign up" path="/signup"/>
+    return <HeaderLink name="Sign up" path="/signup"/>;
   }
 }

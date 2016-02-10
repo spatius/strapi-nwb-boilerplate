@@ -8,7 +8,7 @@ import Quill from "react-quill";
 
 import { Heading, HeaderLink } from "../elements";
 
-import PageForm from "../pages/PageForm";
+import PageForm from "../page/PageForm";
 
 // import { asyncChangeProjectName, asyncChangeOwnerName } from '../../js/actions/AppActions';
 

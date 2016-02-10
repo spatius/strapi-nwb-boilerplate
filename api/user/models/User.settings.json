@@ -49,6 +49,14 @@
     "pages": {
       "collection": "page",
       "via": "contributors"
+    },
+    "tags": {
+      "collection": "tag",
+      "via": "contributors"
+    },
+    "posts": {
+      "collection": "post",
+      "via": "contributors"
     }
   },
   "autoCreatedAt": true,

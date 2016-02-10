@@ -9,9 +9,11 @@ import { propTypes, contextTypes } from 'react-props-decorators';
 import { HeaderLink } from "../../elements";
 import AuthLink from "../../auth/headerLink";
 
+const pages = [ { name: "About", path: "/page/1" }, { name: "About 2", path: "/page/2" }, { name: "About 3", path: "/page/3" } ];
+
 const links = [
   require("../../home").headerLink,
-  // require("../../about").headerLink,
+  ...pages.map(({ name, path }) => <HeaderLink name={name} path={path}/>),
   require("../../posts").headerLink,
   // require("../../auth/headerLink").default
 ];

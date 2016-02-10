@@ -1,0 +1,10 @@
+{
+  "default": {
+    "attributes": {
+      "name": {
+        "required": true
+      }
+    },
+    "displayedAttribute": "name"
+  }
+}
