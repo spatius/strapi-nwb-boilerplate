@@ -12,11 +12,7 @@ const validate = values => {
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
     errors.email = ['invalid'];
   }
-  if (!values.password) {
-    errors.password = ['required'];
-  } else if (values.password.length < 5) {
-    errors.password = ['too short'];
-  }
+
   return errors;
 };
 
@@ -31,18 +27,18 @@ function showErrors(array) {
 }
 
 @reduxForm({
-  form: "signin",
-  fields: ['email', 'password'],
+  form: "forgot-password",
+  fields: ['email'],
   validate
 })
 @propTypes({
   handleSubmit: PropTypes.func,
   submitting: PropTypes.bool
 })
-@css(require("./SigninForm.css"), { allowMultiple: true })
-export default class SigninForm extends Component {
+@css(require("./ForgotPasswordForm.css"), { allowMultiple: true })
+export default class ForgotPasswordForm extends Component {
   render() {
-    const { fields: { email, password }, handleSubmit, submit, submitting, error } = this.props;
+    const { fields: { email }, handleSubmit, submit, submitting, error } = this.props;
 
     return (
       <form styleName="root" className="forms" onSubmit={handleSubmit(submit)}>
@@ -53,18 +49,13 @@ export default class SigninForm extends Component {
           <input type="text" {...email}/>
         </section>
 
-        <section>
-          <label>Password {password.error && <span className="error">{showErrors(password.error)}</span>}</label>
-          <input type="password" {...password}/>
-        </section>
-
         <p>
           <button type="primary" className="width-12" disabled={submitting}>
-            {submitting ? <i/> : <i/>} Log in
+            {submitting ? <i/> : <i/>} Reset
           </button>
         </p>
 
-        <p><Link to="/password-reset" className="small color-black">Forgot password?</Link></p>
+        <p><Link to="/signin" className="small color-black">Have account?</Link></p>
         <p><Link to="/signup" className="small color-black">Don't have account?</Link></p>
       </form>
     );

@@ -57,6 +57,10 @@
     "posts": {
       "collection": "post",
       "via": "contributors"
+    },
+    "profile": {
+      "model": "profile",
+      "via": "user"
     }
   },
   "autoCreatedAt": true,

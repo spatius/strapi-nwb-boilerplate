@@ -15,7 +15,8 @@
       "type": "string"
     },
     "published": {
-      "type": "boolean"
+      "type": "boolean",
+      "required": true
     },
     "keywords": {
       "type": "string"

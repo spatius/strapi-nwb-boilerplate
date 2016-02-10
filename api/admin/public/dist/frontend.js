@@ -411,28 +411,6 @@
 (function () {
   'use strict';
 
-  angular.module('frontend.core.directives')
-    .directive('autofocus', autofocus);
-
-  autofocus.$inject = ['$timeout'];
-
-  function autofocus($timeout) {
-    var directive = {
-      restrict: 'A',
-      link: function ($scope, $element) {
-        $timeout(function () {
-          $element[0].focus();
-        });
-      }
-    };
-
-    return directive;
-  }
-})();
-
-(function () {
-  'use strict';
-
   /**
    * Directive used for infinite scroll (used
    * for relations in the Data Explorer edit view).
@@ -533,6 +511,28 @@
       top: rect.top + window.pageYOffset - document.documentElement.clientTop,
       left: rect.left + window.pageXOffset - document.documentElement.clientLeft
     };
+  }
+})();
+
+(function () {
+  'use strict';
+
+  angular.module('frontend.core.directives')
+    .directive('autofocus', autofocus);
+
+  autofocus.$inject = ['$timeout'];
+
+  function autofocus($timeout) {
+    var directive = {
+      restrict: 'A',
+      link: function ($scope, $element) {
+        $timeout(function () {
+          $element[0].focus();
+        });
+      }
+    };
+
+    return directive;
   }
 })();
 
@@ -770,135 +770,6 @@
   'use strict';
 
   // Init module.
-  angular.module('frontend.core.auth.login', []);
-})();
-
-(function () {
-  'use strict';
-
-  // Module config.
-  angular.module('frontend.core.auth.login')
-    .config([
-      '$stateProvider',
-      function config($stateProvider) {
-        $stateProvider
-          .state('auth.login', {
-            url: '/login',
-            data: {
-              access: 0
-            },
-            views: {
-              'content@': {
-                templateUrl: '/frontend/core/auth/login/login.html',
-                controller: 'LoginController as LoginCtrl'
-              }
-            }
-          });
-      }
-    ]);
-})();
-
-(function () {
-  'use strict';
-
-  angular.module('frontend.core.auth.login')
-    .controller('LoginController', LoginController);
-
-  LoginController.$inject = ['$state', 'authService', 'configService'];
-
-  function LoginController($state, authService, configService) {
-    // Already authenticated so redirect back to dashboard.
-    if (authService.isAuthenticated() && configService.getConfig().isNewApp !== undefined) {
-      return $state.go('strapi.dashboard');
-    }
-
-    // Auto redirection if there are no user yet.
-    if (configService.getConfig() && configService.getConfig().isNewApp) {
-      return $state.go('auth.register');
-    }
-
-    var vm = this;
-    vm.action = action;
-    vm.loading = false;
-    vm.fields = getFields();
-
-    _init();
-
-    /**
-     * Call authService to make login request
-     */
-    function action() {
-      if (vm.loginForm.$valid) {
-        vm.loading = true;
-        authService
-          .login(vm.credentials)
-          .then(function success() {
-            $state.go('strapi.dashboard', null, {
-              reload: true
-            });
-            vm.loading = false;
-          })
-          .catch(function error() {
-            vm.credentials.password = '';
-            vm.loading = false;
-          });
-      }
-    }
-
-    /**
-     * Return the list of fields for the login form.
-     *
-     * @returns [] fields
-     */
-    function getFields() {
-      return [{
-        type: 'input',
-        key: 'identifier',
-        templateOptions: {
-          placeholder: 'Email or username',
-          label: '',
-          focus: true,
-          minlength: 3,
-          addonLeft: {
-            class: 'fa fa-user'
-          }
-        }
-      }, {
-        type: 'input',
-        key: 'password',
-        templateOptions: {
-          type: 'password',
-          placeholder: 'Password',
-          label: '',
-          minlength: 6,
-          addonLeft: {
-            class: 'fa fa-lock'
-          }
-        }
-      }];
-    }
-
-    /**
-     * Private helper function to reset credentials and set focus to
-     * username input.
-     *
-     * @private
-     */
-    function _init() {
-      // Initialize credentials
-      vm.credentials = {
-        identifier: '',
-        password: ''
-      };
-    }
-  }
-
-})();
-
-(function () {
-  'use strict';
-
-  // Init module.
   angular.module('frontend.core.auth.register', []);
 })();
 
@@ -1071,6 +942,135 @@
       }
     }];
   }
+})();
+
+(function () {
+  'use strict';
+
+  // Init module.
+  angular.module('frontend.core.auth.login', []);
+})();
+
+(function () {
+  'use strict';
+
+  // Module config.
+  angular.module('frontend.core.auth.login')
+    .config([
+      '$stateProvider',
+      function config($stateProvider) {
+        $stateProvider
+          .state('auth.login', {
+            url: '/login',
+            data: {
+              access: 0
+            },
+            views: {
+              'content@': {
+                templateUrl: '/frontend/core/auth/login/login.html',
+                controller: 'LoginController as LoginCtrl'
+              }
+            }
+          });
+      }
+    ]);
+})();
+
+(function () {
+  'use strict';
+
+  angular.module('frontend.core.auth.login')
+    .controller('LoginController', LoginController);
+
+  LoginController.$inject = ['$state', 'authService', 'configService'];
+
+  function LoginController($state, authService, configService) {
+    // Already authenticated so redirect back to dashboard.
+    if (authService.isAuthenticated() && configService.getConfig().isNewApp !== undefined) {
+      return $state.go('strapi.dashboard');
+    }
+
+    // Auto redirection if there are no user yet.
+    if (configService.getConfig() && configService.getConfig().isNewApp) {
+      return $state.go('auth.register');
+    }
+
+    var vm = this;
+    vm.action = action;
+    vm.loading = false;
+    vm.fields = getFields();
+
+    _init();
+
+    /**
+     * Call authService to make login request
+     */
+    function action() {
+      if (vm.loginForm.$valid) {
+        vm.loading = true;
+        authService
+          .login(vm.credentials)
+          .then(function success() {
+            $state.go('strapi.dashboard', null, {
+              reload: true
+            });
+            vm.loading = false;
+          })
+          .catch(function error() {
+            vm.credentials.password = '';
+            vm.loading = false;
+          });
+      }
+    }
+
+    /**
+     * Return the list of fields for the login form.
+     *
+     * @returns [] fields
+     */
+    function getFields() {
+      return [{
+        type: 'input',
+        key: 'identifier',
+        templateOptions: {
+          placeholder: 'Email or username',
+          label: '',
+          focus: true,
+          minlength: 3,
+          addonLeft: {
+            class: 'fa fa-user'
+          }
+        }
+      }, {
+        type: 'input',
+        key: 'password',
+        templateOptions: {
+          type: 'password',
+          placeholder: 'Password',
+          label: '',
+          minlength: 6,
+          addonLeft: {
+            class: 'fa fa-lock'
+          }
+        }
+      }];
+    }
+
+    /**
+     * Private helper function to reset credentials and set focus to
+     * username input.
+     *
+     * @private
+     */
+    function _init() {
+      // Initialize credentials
+      vm.credentials = {
+        identifier: '',
+        password: ''
+      };
+    }
+  }
+
 })();
 
 (function () {
@@ -3570,47 +3570,6 @@
   }
 })();
 
-// Generic models angular module initialize.
-(function () {
-  'use strict';
-
-  angular.module('frontend.core.libraries', []);
-})();
-
-(function () {
-  'use strict';
-
-  /**
-   * Service used to inject `pluralize` library inside a controller, service, directive...
-   */
-  angular.module('frontend.core.libraries')
-    .factory('pluralizeFactory', pluralizeFactory);
-
-  pluralizeFactory.$inject = ['$window'];
-
-  function pluralizeFactory($window) {
-    return $window.pluralize;
-  }
-})();
-
-(function () {
-  'use strict';
-
-  /**
-   * Service used to inject `lodash` library inside a controller, service, directive...
-   */
-  angular.module('frontend.core.libraries')
-    .factory('_', lodashFactory);
-
-  lodashFactory.$inject = ['$window'];
-
-  function lodashFactory($window) {
-    var service = $window._;
-
-    return service;
-  }
-})();
-
 (function () {
   'use strict';
 
@@ -4006,6 +3965,47 @@
     };
 
     return Model;
+  }
+})();
+
+// Generic models angular module initialize.
+(function () {
+  'use strict';
+
+  angular.module('frontend.core.libraries', []);
+})();
+
+(function () {
+  'use strict';
+
+  /**
+   * Service used to inject `pluralize` library inside a controller, service, directive...
+   */
+  angular.module('frontend.core.libraries')
+    .factory('pluralizeFactory', pluralizeFactory);
+
+  pluralizeFactory.$inject = ['$window'];
+
+  function pluralizeFactory($window) {
+    return $window.pluralize;
+  }
+})();
+
+(function () {
+  'use strict';
+
+  /**
+   * Service used to inject `lodash` library inside a controller, service, directive...
+   */
+  angular.module('frontend.core.libraries')
+    .factory('_', lodashFactory);
+
+  lodashFactory.$inject = ['$window'];
+
+  function lodashFactory($window) {
+    var service = $window._;
+
+    return service;
   }
 })();
 
@@ -4503,6 +4503,43 @@
   'use strict';
 
   // Init module.
+  angular.module('frontend.core.auth', [
+    'frontend.core.auth.login',
+    'frontend.core.auth.register',
+    'frontend.core.auth.forgotPassword',
+    'frontend.core.auth.changePassword',
+    'frontend.core.auth.services'
+  ]);
+})();
+
+(function () {
+  'use strict';
+
+  // Module configuration.
+  angular.module('frontend.core.auth')
+    .config([
+      '$stateProvider',
+      function config($stateProvider) {
+        $stateProvider
+          .state('auth', {
+            parent: 'frontend',
+            data: {
+              access: 1
+            },
+            views: {
+              'content@': {
+                template: ''
+              }
+            }
+          });
+      }
+    ]);
+})();
+
+(function () {
+  'use strict';
+
+  // Init module.
   angular.module('frontend', [
     'frontend-templates',
     'frontend.core',
@@ -4541,43 +4578,6 @@
       backendUrl: window.backendUrl || window.location.origin,
       frontendUrl: window.frontendUrl
     });
-})();
-
-(function () {
-  'use strict';
-
-  // Init module.
-  angular.module('frontend.core.auth', [
-    'frontend.core.auth.login',
-    'frontend.core.auth.register',
-    'frontend.core.auth.forgotPassword',
-    'frontend.core.auth.changePassword',
-    'frontend.core.auth.services'
-  ]);
-})();
-
-(function () {
-  'use strict';
-
-  // Module configuration.
-  angular.module('frontend.core.auth')
-    .config([
-      '$stateProvider',
-      function config($stateProvider) {
-        $stateProvider
-          .state('auth', {
-            parent: 'frontend',
-            data: {
-              access: 1
-            },
-            views: {
-              'content@': {
-                template: ''
-              }
-            }
-          });
-      }
-    ]);
 })();
 
 (function () {
@@ -5034,18 +5034,6 @@ try {
   module = angular.module('frontend-templates', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('/frontend/core/auth/forgot-password/forgot-password.html',
-    '<div class="row margin-top"><div class="col-sm-4 col-sm-offset-4"><div class="login-panel panel panel-success"><div class="panel-heading bg-success"><div class="center-block logo-container"><h3 class="panel-title"><img class="img-responsive center-block" ng-src="{{Config.frontendUrl}}/assets/images/logo.png" alt="Logo"></h3></div></div><div class="panel-body"><h1 class="h3">Forgot password</h1><p>We will send you an email with a link to get<br>your new password. <a href="#" data-ui-sref="auth.register">Not registered?</a></p><form name="ForgotPasswordCtrl.forgotPasswordForm" novalidate><formly-form model="ForgotPasswordCtrl.form" fields="ForgotPasswordCtrl.fields"></formly-form><button class="btn btn-default btn-block" type="submit" data-ng-click="ForgotPasswordCtrl.action()">Send request</button></form></div></div></div></div>');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('frontend-templates');
-} catch (e) {
-  module = angular.module('frontend-templates', []);
-}
-module.run(['$templateCache', function($templateCache) {
   $templateCache.put('/frontend/core/auth/change-password/change-password.html',
     '<div class="row margin-top"><div class="col-sm-4 col-sm-offset-4"><div class="login-panel panel panel-success"><div class="panel-heading bg-success"><div class="center-block logo-container"><h3 class="panel-title"><img class="img-responsive center-block" ng-src="{{Config.frontendUrl}}/assets/images/logo.png" alt="Logo"></h3></div></div><div class="panel-body"><h1 class="h3">Change password</h1><p>Please choose a password with a minimum of 8 characters.</p><form name="ChangePasswordCtrl.changePasswordForm" novalidate><formly-form model="ChangePasswordCtrl.form" fields="ChangePasswordCtrl.fields"></formly-form><button class="btn btn-default btn-block" type="submit" data-ng-click="ChangePasswordCtrl.action()">Submit</button></form></div></div></div></div>');
 }]);
@@ -5060,6 +5048,18 @@ try {
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('/frontend/core/auth/login/login.html',
     '<div class="row margin-top login"><div class="col-sm-4 col-sm-offset-4"><div class="login-panel panel panel-success"><div class="panel-heading bg-success"><div class="center-block logo-container"><h3 class="panel-title"><img class="img-responsive center-block" ng-src="{{Config.frontendUrl}}/assets/images/logo.png" alt="Logo"></h3></div></div><div class="panel-body"><h1 class="h3">Login</h1><form name="LoginCtrl.loginForm" novalidate><formly-form model="LoginCtrl.credentials" fields="LoginCtrl.fields"></formly-form><p class="auth-forgot"><a href="#" data-ui-sref="auth.forgotPassword">Forgot Password?</a></p><button class="btn btn-default btn-block" type="submit" data-ng-click="LoginCtrl.action()" data-ng-disabled="LoginCtrl.loading">Login</button></form></div></div></div></div>');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('frontend-templates');
+} catch (e) {
+  module = angular.module('frontend-templates', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('/frontend/core/auth/forgot-password/forgot-password.html',
+    '<div class="row margin-top"><div class="col-sm-4 col-sm-offset-4"><div class="login-panel panel panel-success"><div class="panel-heading bg-success"><div class="center-block logo-container"><h3 class="panel-title"><img class="img-responsive center-block" ng-src="{{Config.frontendUrl}}/assets/images/logo.png" alt="Logo"></h3></div></div><div class="panel-body"><h1 class="h3">Forgot password</h1><p>We will send you an email with a link to get<br>your new password. <a href="#" data-ui-sref="auth.register">Not registered?</a></p><form name="ForgotPasswordCtrl.forgotPasswordForm" novalidate><formly-form model="ForgotPasswordCtrl.form" fields="ForgotPasswordCtrl.fields"></formly-form><button class="btn btn-default btn-block" type="submit" data-ng-click="ForgotPasswordCtrl.action()">Send request</button></form></div></div></div></div>');
 }]);
 })();
 

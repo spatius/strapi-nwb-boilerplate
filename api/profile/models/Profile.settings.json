@@ -1,28 +1,42 @@
 {
-  "identity": "post",
+  "identity": "profile",
   "connection": "pg",
   "defaultTemplate": "default",
   "displayedAttribute": "",
   "schema": true,
   "attributes": {
-    "title": {
+    "firstName": {
       "type": "string"
     },
-    "content": {
+    "lastName": {
+      "type": "string"
+    },
+    "midName": {
+      "type": "string"
+    },
+    "address1": {
+      "type": "string"
+    },
+    "address2": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "bio": {
       "type": "text"
     },
-    "metaDescription": {
+    "picture": {
       "type": "string"
     },
-    "keywords": {
-      "type": "string"
+    "sex": {
+      "type": "array"
     },
-    "published": {
-      "type": "boolean",
-      "required": true
-    },
-    "thumbnail": {
-      "type": "string"
+    "birthday": {
+      "type": "date"
     },
     "lang": {
       "type": "string",
@@ -41,13 +55,9 @@
     "updatedBy": {
       "model": "user"
     },
-    "contributors": {
-      "collection": "user",
-      "via": "posts"
-    },
-    "tags": {
-      "collection": "tag",
-      "via": "posts"
+    "user": {
+      "model": "user",
+      "via": "profile"
     }
   },
   "autoCreatedAt": true,

@@ -200,7 +200,7 @@ module.exports = {
 
   forgotPassword: function * () {
     const email = this.request.body.email;
-    const url = this.request.body.url || strapi.config.url;
+    const url = strapi.config.url + "/password-reset";
     let user;
 
     try {
@@ -225,6 +225,8 @@ module.exports = {
     // Set the property code of the local passport.
     user.resetPasswordToken = resetPasswordToken;
 
+    console.log("resetPasswordToken", resetPasswordToken, url);
+
     // Update the user.
     try {
       user = yield user.save();
@@ -238,8 +240,8 @@ module.exports = {
       yield strapi.api.email.services.email.send({
         to: user.email,
         subject: 'Reset password',
-        text: url + '?code=' + resetPasswordToken,
-        html: url + '?code=' + resetPasswordToken
+        text: url + '?token=' + resetPasswordToken,
+        html: url + '?token=' + resetPasswordToken
       });
       this.status = 200;
       this.body = {};

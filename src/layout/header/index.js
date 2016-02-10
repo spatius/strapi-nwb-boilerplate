@@ -9,11 +9,8 @@ import { propTypes, contextTypes } from 'react-props-decorators';
 import { HeaderLink } from "../../elements";
 import AuthLink from "../../auth/headerLink";
 
-const pages = [ { name: "About", path: "/page/1" }, { name: "About 2", path: "/page/2" }, { name: "About 3", path: "/page/3" } ];
-
 const links = [
   require("../../home").headerLink,
-  ...pages.map(({ name, path }) => <HeaderLink name={name} path={path}/>),
   require("../../posts").headerLink,
   // require("../../auth/headerLink").default
 ];
@@ -23,6 +20,7 @@ const links = [
 )
 @propTypes({
   auth: PropTypes.object.isRequired,
+  pages: PropTypes.array.isRequired,
   routes: PropTypes.array.isRequired,
   classes: PropTypes.object
 })
@@ -31,7 +29,7 @@ const links = [
 })
 export default class Header extends Component {
   render() {
-    var { auth: { loggedIn, user }, routes, classes, children } = this.props;
+    var { auth: { loggedIn, user }, pages, routes, classes, children } = this.props;
     const { router } = this.context;
 
     classes = Object.assign(classes || {}, {
@@ -39,7 +37,7 @@ export default class Header extends Component {
     });
 
     const hello = "Hello " + (loggedIn && user ? user.username : "Guest");
-
+ // TODO: fix dynamic breadcrumbs
     return (
       <div className={classnames(classes)}>
         <ul className="breadcrumb breadcrumb-path">
@@ -49,6 +47,7 @@ export default class Header extends Component {
 
         <ul className="right">
           <li>{hello}</li>
+          {pages.map(({ title, id }) => <HeaderLink name={title} path={"page/" + id}/>)}
           {links}
           <AuthLink/>
         </ul>

@@ -11,7 +11,9 @@
       "metaDescription": {
         "maxLength": 100
       },
-      "published": {},
+      "published": {
+        "required": true
+      },
       "keywords": {
         "maxLength": 100
       }

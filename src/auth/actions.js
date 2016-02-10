@@ -33,7 +33,7 @@ function parseError(error) {
 }
 
 function signin({ email, password }) {
-  return (dispatch, getState) => post("auth/local", { identifier: email, password })
+  return (dispatch, getState) => post("/api/auth/local", { identifier: email, password })
   .then(response => {
     dispatch(signedin(response));
     dispatch(routeActions.push("/"));
@@ -48,7 +48,7 @@ function signin({ email, password }) {
 }
 
 function signup({ username, email, password }) {
-  return (dispatch, getState) => post("auth/local/register", { username, email, password })
+  return (dispatch, getState) => post("/api/auth/local/register", { username, email, password })
   .then(response => {
     dispatch(signedin(response));
     dispatch(routeActions.push("/"));
@@ -67,6 +67,40 @@ function signout() {
     dispatch(doSignout());
     dispatch(routeActions.push("/"));
   };
+}
+
+function forgotPassword({ email }) {
+  return (dispatch, getState) => post("/api/auth/forgot-password", { email })
+  .then(response => {
+    console.log(response);
+
+    // dispatch(signedin(response));
+    dispatch(routeActions.push("/"));
+
+    return response;
+  })
+  .catch(error => {
+    throw Object.assign({
+      _error: "Registration failed!"
+    }, parseError(error));
+  });
+}
+
+function changePassword({ token, password, password2 }) {
+  return (dispatch, getState) => post("/api/auth/change-password", { code: token, password, passwordConfirmation: password2 })
+  .then(response => {
+    console.log(response);
+
+    dispatch(signedin(response));
+    dispatch(routeActions.push("/"));
+
+    return response;
+  })
+  .catch(error => {
+    throw Object.assign({
+      _error: "Registration failed!"
+    }, parseError(error));
+  });
 }
 
 function fetchUser() {
@@ -90,5 +124,7 @@ export default {
   signedin,
   signup,
   signout,
+  forgotPassword,
+  changePassword,
   fetchUser
 };

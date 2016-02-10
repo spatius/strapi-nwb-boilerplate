@@ -81,7 +81,7 @@ export default class SignupForm extends Component {
         </section>
 
         <p>
-          <button type="primary" className="btn width-12" disabled={submitting}>
+          <button type="primary" className="width-12" disabled={submitting}>
             {submitting ? <i/> : <i/>} Register
           </button>
         </p>

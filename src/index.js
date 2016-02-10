@@ -28,7 +28,7 @@ const rootReducer = combineReducers({
   router: routeReducer,
   form: formReducer,
   auth: require("./auth/reducers"),
-  page: require("./page/reducers")
+  pages: require("./page/reducers")
 });
 
 export default function configureStore ({ initialState = {}, history }) {

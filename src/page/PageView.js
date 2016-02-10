@@ -1,4 +1,4 @@
-import "./PageView.css";
+import "./PageView.less";
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
@@ -11,22 +11,15 @@ import actions from "./actions";
   actions
 )
 @propTypes({
-  fetchPage: PropTypes.func.isRequired,
+  // fetchPage: PropTypes.func.isRequired,
   params: PropTypes.object.isRequired,
-  page: PropTypes.object
+  pages: PropTypes.array.isRequired
 })
 export default class PageView extends Component {
   render() {
-    const { fetchPage, params: { id }, page } = this.props;
+    const { params: { id }, pages } = this.props;
 
-    var content = "";
-
-    if(!page.page)
-      fetchPage(id);
-    else
-      content = page.page.content;
-
-    console.log("page", this.props);
+    const content = id && pages[id - 1] ? pages[id - 1].content : "Loading";
 
     return (
       <div className="page">

@@ -49,7 +49,7 @@ button {
 			text-decoration: none;
 		}
 	}
-	&[outline] {
+	&.outline {
 		padding: @padding-btn-outline;
 		background: none;
 		border: 1px solid rgba(0, 0, 0, .25);
@@ -81,7 +81,7 @@ button {
 		padding: @padding-btn-small;
 		height: @input-height-small;
 		line-height: @input-height-small;
-		&[outline] {
+		&.outline {
 			padding: @padding-btn-small-outline;
 		}
 	}
@@ -90,7 +90,7 @@ button {
 		padding: @padding-btn-big;
 		height: @input-height-big;
 		line-height: @input-height-big;
-		&[outline] {
+		&.outline {
 			padding: @padding-btn-big-outline;
 		}
 	}
@@ -99,20 +99,20 @@ button {
 		font-size: @font-size-btn-upper-normal;
 		padding: @padding-btn;
 		letter-spacing: .1em;
-		&[outline] {
+		&.outline {
 			padding: @padding-btn-outline;
 		}
 		&[small] {
 			font-size: @font-size-btn-upper-small;
 			padding: @padding-btn-small;
-			&[outline] {
+			&.outline {
 				padding: @padding-btn-small-outline;
 			}
 		}
 		&[big] {
 			font-size: @font-size-btn-upper-big;
 			padding: @padding-btn-big;
-			&[outline] {
+			&.outline {
 				padding: @padding-btn-big-outline;
 			}
 		}
@@ -129,7 +129,7 @@ button {
 		&:hover {
 			opacity: 0.85;
 		}
-		&[outline] {
+		&.outline {
 			background: none;
 			color: #fff;
 			border-color: rgba(255, 255, 255, .9);
@@ -164,6 +164,3 @@ button {
 	}
 
 }
-
-
-

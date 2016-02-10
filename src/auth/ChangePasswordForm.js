@@ -7,16 +7,18 @@ import css from 'react-css-modules';
 
 const validate = values => {
   const errors = {};
-  if (!values.email) {
-    errors.email = ['required'];
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = ['invalid'];
-  }
   if (!values.password) {
     errors.password = ['required'];
   } else if (values.password.length < 5) {
     errors.password = ['too short'];
   }
+  if (!values.password2) {
+    errors.password2 = ['required'];
+  } else if (values.password2.length < 5) {
+    errors.password2 = ['too short'];
+  }
+  if(!errors.password && !errors.password2 && values.password != values.password2)
+    errors.password = errors.password2 = ["different"];
   return errors;
 };
 
@@ -31,40 +33,41 @@ function showErrors(array) {
 }
 
 @reduxForm({
-  form: "signin",
-  fields: ['email', 'password'],
+  form: "change-password",
+  fields: ["token", 'password', 'password2'],
   validate
-})
+}, (state, { token }) => ({ initialValues: { token } }))
 @propTypes({
+  token: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func,
   submitting: PropTypes.bool
 })
-@css(require("./SigninForm.css"), { allowMultiple: true })
-export default class SigninForm extends Component {
+@css(require("./ChangePasswordForm.css"), { allowMultiple: true })
+export default class ChangePasswordForm extends Component {
   render() {
-    const { fields: { email, password }, handleSubmit, submit, submitting, error } = this.props;
+    const { fields: { token, password, password2 }, handleSubmit, submit, submitting, error } = this.props;
 
     return (
       <form styleName="root" className="forms" onSubmit={handleSubmit(submit)}>
         {error && <div className="alert alert-error">{error}</div>}
 
         <section>
-          <label>Email {email.error && <span className="error">{showErrors(email.error)}</span>}</label>
-          <input type="text" {...email}/>
-        </section>
-
-        <section>
           <label>Password {password.error && <span className="error">{showErrors(password.error)}</span>}</label>
           <input type="password" {...password}/>
         </section>
 
+        <section>
+          <label>Confirm Password {password2.error && <span className="error">{showErrors(password2.error)}</span>}</label>
+          <input type="password" {...password2}/>
+        </section>
+
         <p>
           <button type="primary" className="width-12" disabled={submitting}>
-            {submitting ? <i/> : <i/>} Log in
+            {submitting ? <i/> : <i/>} Change
           </button>
         </p>
 
-        <p><Link to="/password-reset" className="small color-black">Forgot password?</Link></p>
+        <p><Link to="/signin" className="small color-black">Have account?</Link></p>
         <p><Link to="/signup" className="small color-black">Don't have account?</Link></p>
       </form>
     );
