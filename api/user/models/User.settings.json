@@ -43,15 +43,40 @@
       "dominant": true
     },
     "filesCreated": {
-      "collection": "upload",
+      "collection": "profile",
       "via": "createdBy"
     },
     "pages": {
       "collection": "page",
       "via": "contributors"
+    },
+    "profiles": {
+      "collection": "profile",
+      "via": "contributors"
+    },
+    "profile": {
+      "model": "profile",
+      "via": "user"
     }
   },
   "autoCreatedAt": true,
   "autoUpdatedAt": true,
-  "migrate": "alter"
+  "migrate": "alter",
+  "templates": {
+    "default": {
+      "attributes": {
+        "username": {
+          "type": "string",
+          "minLength": 3,
+          "unique": true
+        },
+        "email": {
+          "type": "email",
+          "minLength": 6,
+          "unique": true
+        }
+      },
+      "displayedAttribute": "username"
+    }
+  }
 }

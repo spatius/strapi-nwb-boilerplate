@@ -1,0 +1,57 @@
+{
+  "routes": {
+    "GET /profile": {
+      "controller": "Profile",
+      "action": "find",
+      "policies": [
+        "isAuthorized"
+      ]
+    },
+    "GET /profile/:id": {
+      "controller": "Profile",
+      "action": "findOne",
+      "policies": [
+        "isAuthorized"
+      ]
+    },
+    "POST /profile": {
+      "controller": "Profile",
+      "action": "create",
+      "policies": [
+        "isAuthorized",
+        "addDataCreate"
+      ]
+    },
+    "PUT /profile/:id": {
+      "controller": "Profile",
+      "action": "update",
+      "policies": [
+        "isAuthorized",
+        "addDataUpdate"
+      ]
+    },
+    "DELETE /profile/:id": {
+      "controller": "Profile",
+      "action": "destroy",
+      "policies": [
+        "isAuthorized"
+      ]
+    },
+    "POST /profile/:parentId/:relation": {
+      "controller": "Profile",
+      "action": "add",
+      "policies": [
+        "isAuthorized",
+        "addDataCreate"
+      ]
+    },
+    "DELETE /profile/:parentId/:relation/:id": {
+      "controller": "Profile",
+      "action": "remove",
+      "policies": [
+        "isAuthorized",
+        "addDataUpdate"
+      ]
+    }
+  }
+}
