@@ -3,8 +3,12 @@ import { routeActions } from 'react-router-redux';
 
 import { get, post } from "../fetch";
 
-const signedin = createAction("SIGNIN_SUCCESS");
-const doSignout = createAction("SIGNOUT");
+const signinStatus = createAction("signin/STATUS");
+const signupStatus = createAction("signup/STATUS");
+const signoutStatus = createAction("signout/STATUS");
+const forgotPasswordStatus = createAction("forgotPassword/STATUS");
+const changePasswordStatus = createAction("changePassword/STATUS");
+const fetchUserStatus = createAction("fetchUser/STATUS");
 
 function parseError(error) {
   const { invalidAttributes } = error;
@@ -27,101 +31,156 @@ function parseError(error) {
   } else
     result._error = error.message || error;
 
-  console.log(result, error);
-
   return result;
 }
 
 function signin({ email, password }) {
-  return (dispatch, getState) => post("/api/auth/local", { identifier: email, password })
-  .then(response => {
-    dispatch(signedin(response));
-    dispatch(routeActions.push("/"));
+  return (dispatch, getState) => {
+    dispatch(signinStatus({ status: 1 }));
 
-    return response;
-  })
-  .catch(error => {
-    throw Object.assign({
-      _error: "Login failed!"
-    }, parseError(error));
-  });
+    return post("/api/auth/local", { identifier: email, password })
+    .then(data => {
+      dispatch(signinStatus({ status: 2, data }));
+
+      const { router: { location: { query: { next } } } } = getState();
+
+      if(next)
+        dispatch(routeActions.replace(next));
+      else
+        dispatch(routeActions.replace("/"));
+
+      return data;
+    })
+    .catch(error => {
+      error = Object.assign({
+        _error: "Login failed!"
+      }, parseError(error));
+
+      dispatch(signinStatus({ status: 3, error }));
+
+      throw error;
+    });
+  }
 }
 
 function signup({ username, email, password }) {
-  return (dispatch, getState) => post("/api/auth/local/register", { username, email, password })
-  .then(response => {
-    dispatch(signedin(response));
-    dispatch(routeActions.push("/"));
+  return (dispatch, getState) => {
+    dispatch(signupStatus({ status: 1 }));
 
-    return response;
-  })
-  .catch(error => {
-    throw Object.assign({
-      _error: "Registration failed!"
-    }, parseError(error));
-  });
+    return post("/api/auth/local/register", { username, email, password })
+    .then(data => {
+      dispatch(signupStatus({ status: 2, data }));
+      dispatch(routeActions.replace("/"));
+
+      return data;
+    })
+    .catch(error => {
+      error = Object.assign({
+        _error: "Registration failed!"
+      }, parseError(error));
+
+      dispatch(signupStatus({ status: 3, error }));
+
+      throw error;
+    });
+  }
 }
 
 function signout() {
   return (dispatch, getState) => {
-    dispatch(doSignout());
-    dispatch(routeActions.push("/"));
+    dispatch(signoutStatus({ status: 1 }));
+
+    return post("/api/auth/logout")
+    .then(data => {
+      dispatch(signoutStatus({ status: 2, data }));
+      // dispatch(routeActions.replace("/"));
+
+      return data;
+    })
+    .catch(error => {
+      error = Object.assign({
+        _error: "Logout failed!"
+      }, parseError(error));
+
+      dispatch(signoutStatus({ status: 3, error }));
+
+      throw error;
+    });
   };
 }
 
 function forgotPassword({ email }) {
-  return (dispatch, getState) => post("/api/auth/forgot-password", { email })
-  .then(response => {
-    console.log(response);
+  return (dispatch, getState) => {
+    dispatch(forgotPasswordStatus({ status: 1 }));
 
-    // dispatch(signedin(response));
-    dispatch(routeActions.push("/"));
+    return post("/api/auth/forgot-password", { email })
+    .then(data => {
+      dispatch(forgotPasswordStatus({ status: 2, data }));
+      dispatch(routeActions.replace("/"));
 
-    return response;
-  })
-  .catch(error => {
-    throw Object.assign({
-      _error: "Registration failed!"
-    }, parseError(error));
-  });
+      return data;
+    })
+    .catch(error => {
+      error = Object.assign({
+        _error: "Password reset failed!"
+      }, parseError(error));
+
+      dispatch(forgotPasswordStatus({ status: 3, error }));
+
+      throw error;
+    });
+  }
 }
 
 function changePassword({ token, password, password2 }) {
-  return (dispatch, getState) => post("/api/auth/change-password", { code: token, password, passwordConfirmation: password2 })
-  .then(response => {
-    console.log(response);
+  return (dispatch, getState) => {
+    dispatch(changePasswordStatus({ status: 1 }));
 
-    dispatch(signedin(response));
-    dispatch(routeActions.push("/"));
+    return post("/api/auth/change-password", { code: token, password, passwordConfirmation: password2 })
+    .then(data => {
+      dispatch(changePasswordStatus({ status: 1, data }));
+      dispatch(routeActions.replace("/"));
 
-    return response;
-  })
-  .catch(error => {
-    throw Object.assign({
-      _error: "Registration failed!"
-    }, parseError(error));
-  });
+      return data;
+    })
+    .catch(error => {
+      error = Object.assign({
+        _error: "Password reset failed!"
+      }, parseError(error));
+
+      dispatch(changePasswordStatus({ status: 3, error }));
+
+      throw error;
+    });
+  }
 }
 
 function fetchUser() {
-  return (dispatch, getState) => get("/api/user/" + localStorage.getItem("uid"), { token: localStorage.getItem("jwt") })
-  .then(response => {
-    response = {
-      user: response,
-      jwt: localStorage.getItem("jwt")
-    };
+  return (dispatch, getState) => {
+    dispatch(fetchUserStatus({ status: 1 }));
 
-    dispatch(signedin(response));
-    dispatch(routeActions.push("/"));
+    return get("/api/user/" + localStorage.getItem("uid"), { token: localStorage.getItem("jwt") })
+    .then(data => {
+      data = {
+        user: data,
+        jwt: localStorage.getItem("jwt")
+      };
 
-    return response;
-  })
-  // .catch(e => console.log(e));
+      dispatch(fetchUserStatus({ status: 2, data }));
+      // dispatch(routeActions.replace("/"));
+
+      return data;
+    })
+    .catch(error => {
+      dispatch(fetchUserStatus({ status: 3, error }));
+
+      throw error;
+    });
+  }
 }
 
 export default {
   signin,
-  signedin,
   signup,
   signout,
   forgotPassword,

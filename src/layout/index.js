@@ -2,13 +2,27 @@ import "./index.css";
 
 import React, { Component, PropTypes } from 'react';
 import { Route } from 'react-router';
-import Helmet from 'react-helmet';
+// import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import { propTypes, contextTypes } from 'react-props-decorators';
 
 import { Heading } from "../elements";
 
 import Header from "./header";
+
+function buildBreadcrumbs([ root, current ], page) {
+  var list = [ { name: root.indexRoute.name, path: root.path } ];
+
+  if(root.indexRoute === current)
+    return list;
+
+  return [
+    ...list,
+    !current.name
+      ? { name: page.title, path: page.route }
+      : { name: current.name, path: current.path }
+  ];
+}
 
 @connect(
   state => state,
@@ -17,7 +31,7 @@ import Header from "./header";
 @propTypes({
   auth: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
-  pages: PropTypes.array.isRequired,
+  pages: PropTypes.object.isRequired,
   routes: PropTypes.array.isRequired,
   fetchUser: PropTypes.func.isRequired,
   fetchPages: PropTypes.func.isRequired
@@ -26,28 +40,33 @@ import Header from "./header";
   router: PropTypes.object.isRequired
 })
 export default class Layout extends Component {
-  render() {
-    const { auth: { loggedIn, user }, params: { id }, pages, fetchUser, fetchPages, routes: [ head, ...tail ], children } = this.props;
-    const { router } = this.context;
-    const name = (tail.length ? tail[tail.length - 1].name : null) || (id && pages[id - 1] ? pages[id - 1].title : null) || "???";
-    const title = tail.map(({ name }) => name).join(" / "); // TODO: fix dynamic breadcrumbs
-
-    document.title = "Blog - " + title;
+  componentDidMount() {
+    const { auth: { loggedIn, user }, pages: { status }, fetchUser, fetchPages } = this.props;
 
     if(loggedIn && !user)
       fetchUser();
 
-    if(!pages.length)
+    if(status == 0)
       fetchPages();
+  }
+
+  render() {
+    const { auth: { loggedIn, user }, params: { route }, pages: { status, data }, routes, children } = this.props;
+    const { router } = this.context;
+
+    // TODO: Find out a better way
+    const breadcrumbs = buildBreadcrumbs(routes, status == 2 && route && data.find(item => item.route.indexOf(route) > -1));
+
+    document.title = breadcrumbs.map(item => item.name).join(" / ");
 
     return (
       <div className="layout">
-        <Header routes={tail} children={children}/>
-        <Header routes={tail} children={children} classes={{fixed: true}}/>
+        <Header breadcrumbs={breadcrumbs} children={children}/>
+        <Header breadcrumbs={breadcrumbs} children={children} classes={{fixed: true}}/>
 
         {/*<Helmet title={title} titleTemplate="Blog - %s"/>*/}
 
-        <Heading title={name}/>
+        <Heading title={breadcrumbs[breadcrumbs.length - 1].name}/>
 
         {children}
       </div>

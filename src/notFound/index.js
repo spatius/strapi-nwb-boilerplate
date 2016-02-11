@@ -11,5 +11,5 @@ function NotFoundView(props) {
 }
 
 export const route = (
-  <Route name="Page not found" path="*" component={NotFoundView} />
+  <Route name="Page not found" path="/404" component={NotFoundView} />
 );

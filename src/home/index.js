@@ -1,10 +1,8 @@
 import "./index.css";
 
 import React from 'react';
-import { Route, Link } from 'react-router';
+import { IndexRoute } from 'react-router';
 import { connect } from 'react-redux';
-
-import { HeaderLink } from "../elements";
 
 function HomeView({ dispatch, data }) {
   const { projectName, ownerName } = data;
@@ -22,10 +20,6 @@ function select(state) {
   };
 }
 
-export const headerLink = (
-  <HeaderLink name="Home" path="/"/>
-);
-
 export const route = (
-  <Route name="Home" path="/" component={connect(select)(HomeView)} />
+  <IndexRoute name="Blog" component={connect(select)(HomeView)} />
 );

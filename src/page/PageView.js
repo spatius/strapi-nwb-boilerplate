@@ -3,27 +3,45 @@ import "./PageView.less";
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { propTypes } from 'react-props-decorators';
+import { routeActions } from 'react-router-redux';
 
-import actions from "./actions";
-
-@connect(
-  state => state,
-  actions
-)
+@connect(state => state)
 @propTypes({
-  // fetchPage: PropTypes.func.isRequired,
   params: PropTypes.object.isRequired,
-  pages: PropTypes.array.isRequired
+  pages: PropTypes.object.isRequired
 })
 export default class PageView extends Component {
-  render() {
-    const { params: { id }, pages } = this.props;
+  componentWillMount() {
+    this.shouldRedirect(this.props);
+  }
 
-    const content = id && pages[id - 1] ? pages[id - 1].content : "Loading";
+  componentWillReceiveProps(nextProps) {
+    this.shouldRedirect(nextProps);
+  }
+
+  shouldRedirect({ dispatch, params: { route }, pages: { status, data, error } }) {
+    const page = status == 2 ? data.find(item => item.route.indexOf(route) > -1) : null;
+    const content = page ? page.content : null;
+
+    if(status == 2 && !content)
+      dispatch(routeActions.replace("/404"));
+  }
+
+  render() {
+    const { params: { route }, pages: { status, data, error } } = this.props;
+
+    const page = status == 2 ? data.find(item => item.route.indexOf(route) > -1) : null;
+    const content = page ? page.content : null;
 
     return (
       <div className="page">
-        <div dangerouslySetInnerHTML={{__html: content}}/>
+        {status == 1
+          ? "Loading"
+          : status == 3
+            ? error
+            : content
+              ? <div dangerouslySetInnerHTML={{ __html: content }}/>
+              : "Page does not exist"}
       </div>
     );
   }

@@ -10,18 +10,15 @@ import { HeaderLink } from "../../elements";
 import AuthLink from "../../auth/headerLink";
 
 const links = [
-  require("../../home").headerLink,
   require("../../posts").headerLink,
   // require("../../auth/headerLink").default
 ];
 
-@connect(
-  state => state
-)
+@connect(state => state)
 @propTypes({
   auth: PropTypes.object.isRequired,
-  pages: PropTypes.array.isRequired,
-  routes: PropTypes.array.isRequired,
+  pages: PropTypes.object.isRequired,
+  breadcrumbs: PropTypes.array.isRequired,
   classes: PropTypes.object
 })
 @contextTypes({
@@ -29,25 +26,28 @@ const links = [
 })
 export default class Header extends Component {
   render() {
-    var { auth: { loggedIn, user }, pages, routes, classes, children } = this.props;
+    var { auth: { loggedIn, user }, pages: { status, data, error }, breadcrumbs: [ brand, ...routes ], classes, children } = this.props;
     const { router } = this.context;
+    const breadcrumbs = [
+      <HeaderLink className="brand" index {...brand}/>,
+      ...routes.map(route => <HeaderLink {...route}/>)
+    ];
 
     classes = Object.assign(classes || {}, {
       header: true
     });
 
     const hello = "Hello " + (loggedIn && user ? user.username : "Guest");
- // TODO: fix dynamic breadcrumbs
+
     return (
       <div className={classnames(classes)}>
         <ul className="breadcrumb breadcrumb-path">
-          <li><Link className="brand" to="/">Blog</Link></li>
-          {routes.map(({ name, path }) => <HeaderLink name={name} path={path}/>)}
+          {breadcrumbs}
         </ul>
 
         <ul className="right">
           <li>{hello}</li>
-          {pages.map(({ title, id }) => <HeaderLink name={title} path={"page/" + id}/>)}
+          {status == 2 && data.map(({ title, route }) => <HeaderLink name={title} path={route}/>)}
           {links}
           <AuthLink/>
         </ul>

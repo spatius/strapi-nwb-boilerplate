@@ -11,12 +11,14 @@
     "content": {
       "type": "text"
     },
+    "route": {
+      "type": "string"
+    },
     "metaDescription": {
       "type": "string"
     },
     "published": {
-      "type": "boolean",
-      "required": true
+      "type": "boolean"
     },
     "keywords": {
       "type": "string"

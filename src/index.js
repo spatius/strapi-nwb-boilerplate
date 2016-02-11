@@ -7,11 +7,12 @@ import "./kube/kube.less";
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, Route, browserHistory } from 'react-router';
+import { Router, Route, Redirect, browserHistory } from 'react-router';
 import { syncHistory, routeReducer } from 'react-router-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import {reducer as formReducer} from 'redux-form';
+import createLogger from 'redux-logger';
 import FontFaceObserver from 'fontfaceobserver';
 
 // Observer loading of Open Sans (to remove open sans, remove the <link> tag in the index.html file and this observer)
@@ -31,12 +32,27 @@ const rootReducer = combineReducers({
   pages: require("./page/reducers")
 });
 
-export default function configureStore ({ initialState = {}, history }) {
+const crashReporter = store => next => action => {
+  try {
+    return next(action)
+  } catch (err) {
+    console.error('Caught an exception!', err)
+    // Raven.captureException(err, {
+    //   extra: {
+    //     action,
+    //     state: store.getState()
+    //   }
+    // })
+    throw err
+  }
+}
+
+function configureStore ({ initialState = {}, history }) {
   // Sync with router via history instance (main.js)
   const routerMiddleware = syncHistory(history)
 
   // Compose final middleware and use devtools in debug environment
-  let middleware = applyMiddleware(thunk, routerMiddleware)
+  let middleware = applyMiddleware(thunk, routerMiddleware, createLogger(), crashReporter)
 
   const devTools = window.devToolsExtension ? window.devToolsExtension() : f => f
   middleware = compose(middleware, devTools)
@@ -61,16 +77,17 @@ import Layout from "./layout";
 
 const routes = [
   require("./home").route,
-  require("./page/routes"),
   require("./posts").route,
   ...require("./auth/routes"),
-  require("./notFound").route
+  require("./notFound").route,
+  require("./page/routes"),
+  <Redirect from="*" to="/404" />
 ];
 
 ReactDOM.render(
   <Provider store={store}>
     <Router history={browserHistory}>
-      <Route component={Layout}>
+      <Route path="/" component={Layout}>
         {routes}
       </Route>
     </Router>

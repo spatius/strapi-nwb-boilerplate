@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { propTypes } from 'react-props-decorators';
 
@@ -31,6 +32,7 @@ function showErrors(array) {
   fields: ['email'],
   validate
 })
+@connect(state => state)
 @propTypes({
   handleSubmit: PropTypes.func,
   submitting: PropTypes.bool
@@ -38,7 +40,7 @@ function showErrors(array) {
 @css(require("./ForgotPasswordForm.css"), { allowMultiple: true })
 export default class ForgotPasswordForm extends Component {
   render() {
-    const { fields: { email }, handleSubmit, submit, submitting, error } = this.props;
+    const { fields: { email }, handleSubmit, submit, submitting, error, router: { location: { query } } } = this.props;
 
     return (
       <form styleName="root" className="forms" onSubmit={handleSubmit(submit)}>
@@ -55,8 +57,8 @@ export default class ForgotPasswordForm extends Component {
           </button>
         </p>
 
-        <p><Link to="/signin" className="small color-black">Have account?</Link></p>
-        <p><Link to="/signup" className="small color-black">Don't have account?</Link></p>
+        <p><Link to={{ pathname: "/signin", query }} className="small color-black">Have account?</Link></p>
+        <p><Link to={{ pathname: "/signup", query }} className="small color-black">Don't have account?</Link></p>
       </form>
     );
   }

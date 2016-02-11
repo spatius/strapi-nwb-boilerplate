@@ -1,19 +1,23 @@
 import "./index.css";
 
-import React from 'react';
+import React, { Component } from 'react';
 import { Route } from 'react-router';
 
 import { HeaderLink } from "../elements";
+import { authenticated } from "../decorators";
 
-function PostsView(props) {
-  return (
-    <div className="posts">
-    </div>
-  );
+@authenticated()
+class PostsView extends Component {
+  render() {
+    return (
+      <div className="posts">
+      </div>
+    );
+  }
 }
 
 export const headerLink = (
-  <HeaderLink name="Posts" path="/posts"/>
+  <HeaderLink name="Posts (protected)" path="/posts"/>
 );
 
 export const route = (

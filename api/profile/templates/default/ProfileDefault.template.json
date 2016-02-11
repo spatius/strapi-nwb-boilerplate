@@ -1,7 +1,9 @@
 {
   "default": {
     "attributes": {
-      "firstName": {},
+      "firstName": {
+        "required": true
+      },
       "lastName": {},
       "midName": {},
       "address1": {},

@@ -1,38 +1,27 @@
 import { createAction } from 'redux-actions';
-import { routeActions } from 'react-router-redux';
 
 import { get, post } from "../fetch";
 
-const pageFetched = createAction("PAGE_FETCH_SUCCESS");
-const pagesFetched = createAction("PAGES_FETCH_SUCCESS");
+const fetchPagesStatus = createAction("fetchPages/STATUS");
 
 function fetchPages() {
-  return (dispatch, getState) => get("/api/page")
-  .then(response => {
-    dispatch(pagesFetched(response));
+  return dispatch => {
+    dispatch(fetchPagesStatus({ status: 1 }));
 
-    return response;
-  })
-  // .catch(e => console.log(e));
-}
+    return get("/api/page")
+    .then(data => {
+      dispatch(fetchPagesStatus({ status: 2, data }));
 
-function fetchPage(id) {
-  return (dispatch, getState) => get("/api/page/" + id)
-  .then(response => {
-    response = {
-      page: response
-    };
+      return data;
+    })
+    .catch(error => {
+      dispatch(fetchPagesStatus({ status: 3, error }));
 
-    dispatch(pageFetched(response));
-
-    return response;
-  })
-  // .catch(e => console.log(e));
+      throw error;
+    });
+  }
 }
 
 export default {
-  pagesFetched,
-  pageFetched,
-  fetchPages,
-  fetchPage
+  fetchPages
 };

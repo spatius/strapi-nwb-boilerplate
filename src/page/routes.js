@@ -3,6 +3,12 @@ import { Route } from 'react-router';
 
 import PageView from "./PageView";
 
+function onEnter({ params: { route } }, replace) {
+  console.log(route);
+
+  replace("/404");
+}
+
 export default [
-  <Route path="/page/:id" component={PageView} />,
+  <Route path="/:route" component={PageView}/> //  onEnter={onEnter} />,
 ];

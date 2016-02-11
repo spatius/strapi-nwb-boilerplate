@@ -1,7 +1,7 @@
 import "./elements.less";
 
 import React, { Component, PropTypes } from 'react';
-import { Link, isActive } from 'react-router';
+import { Link, IndexLink } from 'react-router';
 import { propTypes, contextTypes } from 'react-props-decorators';
 
 @propTypes({
@@ -13,15 +13,27 @@ import { propTypes, contextTypes } from 'react-props-decorators';
 })
 export class HeaderLink extends Component {
   render() {
-    const { name, path, onClick } = this.props;
+    const { name, path, query, index, className, onClick } = this.props;
     const { router } = this.context;
 
-    var element = !!path && router.isActive(path)
-      ? name
-      : <Link to={path || "/"} onClick={onClick}>{name}</Link>;
+    const handleClick = (e) => {
+      if(!path)
+        e.preventDefault();
+
+      if(onClick)
+        return onClick();
+    };
+
+    var element = index ? IndexLink : Link;
 
     return (
-      <li>{element}</li>
+      <li>{!!path && router.isActive(path, index)
+        ? name
+        : React.createElement(element, {
+            className,
+            to: { pathname: path || "/", query: query || {} },
+            onClick: handleClick
+          }, name)}</li>
     );
   }
 };

@@ -6,10 +6,7 @@ import { HeaderLink } from "../elements";
 
 import actions from "./actions";
 
-@connect(
-  state => state,
-  actions
-)
+@connect(state => state, actions)
 @propTypes({
   auth: PropTypes.object.isRequired,
   signout: PropTypes.func.isRequired
@@ -19,15 +16,15 @@ import actions from "./actions";
 })
 export default class AuthLink extends Component {
   render() {
-    const { auth: { loggedIn }, signout } = this.props;
+    const { auth: { loggedIn }, signout, router: { location: { query } } } = this.props;
     const { router } = this.context;
 
     if(loggedIn)
       return <HeaderLink name="Sign out" onClick={signout}/>;
 
     if(router.isActive("/signin"))
-      return <HeaderLink name="Sign up" path="/signup"/>;
+      return <HeaderLink name="Sign up" path="/signup" query={query}/>;
 
-    return <HeaderLink name="Sign in" path="/signin"/>;
+    return <HeaderLink name="Sign in" path="/signin" query={query}/>;
   }
 }

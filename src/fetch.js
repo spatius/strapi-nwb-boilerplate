@@ -6,8 +6,6 @@ function process(response) {
 
   if(!response.ok)
     return promise.then(error => {
-      console.log(error);
-
       throw error;
     });
 

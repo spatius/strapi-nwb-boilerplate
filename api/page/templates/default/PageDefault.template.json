@@ -8,6 +8,9 @@
       "content": {
         "required": true
       },
+      "route": {
+        "required": true
+      },
       "metaDescription": {
         "maxLength": 100
       },

@@ -8,10 +8,7 @@ import actions from "./actions";
 import ForgotPasswordForm from "./ForgotPasswordForm";
 import ChangePasswordForm from "./ChangePasswordForm";
 
-@connect(
-  state => state,
-  actions
-)
+@connect(state => state, actions)
 @propTypes({
   router: PropTypes.object.isRequired,
   forgotPassword: PropTypes.func.isRequired,
