@@ -1,13 +1,14 @@
 import "./index.less";
 
 import React, { Component, PropTypes } from 'react';
-import { Route, Link } from 'react-router';
+import { Route } from 'react-router';
 import { connect } from 'react-redux';
 import classnames from "classnames";
 import { propTypes, contextTypes } from 'react-props-decorators';
 
 import { HeaderLink } from "../../elements";
 import AuthLink from "../../auth/headerLink";
+import ProfileLink from "../../profile/headerLink";
 
 const links = [
   require("../../posts").headerLink,
@@ -37,8 +38,6 @@ export default class Header extends Component {
       header: true
     });
 
-    const hello = "Hello " + (loggedIn && user ? user.username : "Guest");
-
     return (
       <div className={classnames(classes)}>
         <ul className="breadcrumb breadcrumb-path">
@@ -46,7 +45,7 @@ export default class Header extends Component {
         </ul>
 
         <ul className="right">
-          <li>{hello}</li>
+          {/*<li>Hello <ProfileLink/></li>*/}
           {status == 2 && data.map(({ title, route }) => <HeaderLink name={title} path={route}/>)}
           {links}
           <AuthLink/>

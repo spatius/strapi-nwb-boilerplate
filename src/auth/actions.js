@@ -40,14 +40,14 @@ function signin({ email, password }) {
 
     return post("/api/auth/local", { identifier: email, password })
     .then(data => {
-      dispatch(signinStatus({ status: 2, data }));
-
       const { router: { location: { query: { next } } } } = getState();
 
       if(next)
         dispatch(routeActions.replace(next));
       else
         dispatch(routeActions.replace("/"));
+
+      dispatch(signinStatus({ status: 2, data }));
 
       return data;
     })
@@ -69,8 +69,9 @@ function signup({ username, email, password }) {
 
     return post("/api/auth/local/register", { username, email, password })
     .then(data => {
-      dispatch(signupStatus({ status: 2, data }));
       dispatch(routeActions.replace("/"));
+
+      dispatch(signupStatus({ status: 2, data }));
 
       return data;
     })
@@ -93,7 +94,6 @@ function signout() {
     return post("/api/auth/logout")
     .then(data => {
       dispatch(signoutStatus({ status: 2, data }));
-      // dispatch(routeActions.replace("/"));
 
       return data;
     })
@@ -115,8 +115,9 @@ function forgotPassword({ email }) {
 
     return post("/api/auth/forgot-password", { email })
     .then(data => {
-      dispatch(forgotPasswordStatus({ status: 2, data }));
       dispatch(routeActions.replace("/"));
+
+      dispatch(forgotPasswordStatus({ status: 2, data }));
 
       return data;
     })
@@ -138,8 +139,9 @@ function changePassword({ token, password, password2 }) {
 
     return post("/api/auth/change-password", { code: token, password, passwordConfirmation: password2 })
     .then(data => {
-      dispatch(changePasswordStatus({ status: 1, data }));
       dispatch(routeActions.replace("/"));
+
+      dispatch(changePasswordStatus({ status: 1, data }));
 
       return data;
     })
@@ -167,7 +169,6 @@ function fetchUser() {
       };
 
       dispatch(fetchUserStatus({ status: 2, data }));
-      // dispatch(routeActions.replace("/"));
 
       return data;
     })
