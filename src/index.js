@@ -30,6 +30,7 @@ const rootReducer = combineReducers({
   form: formReducer,
   auth: require("./auth/reducers"),
   pages: require("./page/reducers"),
+  posts: require("./posts/reducers"),
   // profile: require("./profile/reducers")
 });
 
@@ -80,7 +81,7 @@ import Layout from "./layout";
 const routes = [
   require("./home").route,
   // ...require("./profile/routes"),
-  require("./posts").route,
+  ...require("./posts").route,
   ...require("./auth/routes"),
   require("./notFound").route,
   ...require("./page/routes"),
