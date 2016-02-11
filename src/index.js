@@ -29,7 +29,8 @@ const rootReducer = combineReducers({
   router: routeReducer,
   form: formReducer,
   auth: require("./auth/reducers"),
-  pages: require("./page/reducers")
+  pages: require("./page/reducers"),
+  posts: require("./posts/reducers"),
 });
 
 const crashReporter = store => next => action => {
@@ -52,7 +53,8 @@ function configureStore ({ initialState = {}, history }) {
   const routerMiddleware = syncHistory(history)
 
   // Compose final middleware and use devtools in debug environment
-  let middleware = applyMiddleware(thunk, routerMiddleware, createLogger(), crashReporter)
+  // let middleware = applyMiddleware(thunk, routerMiddleware, createLogger(), crashReporter)
+  let middleware = applyMiddleware(thunk, routerMiddleware, crashReporter)
 
   const devTools = window.devToolsExtension ? window.devToolsExtension() : f => f
   middleware = compose(middleware, devTools)
@@ -77,7 +79,7 @@ import Layout from "./layout";
 
 const routes = [
   require("./home").route,
-  require("./posts").route,
+  ...require("./posts").route,
   ...require("./auth/routes"),
   require("./notFound").route,
   require("./page/routes"),
