@@ -1,50 +1,25 @@
 import { handleActions } from 'redux-actions';
 
-const jwt = localStorage.getItem("jwt");
-
-function processResponse({ payload: { status, data: { user, jwt } = { }, error } }) {
-  if(status == 2) {
-    localStorage.setItem("jwt", jwt);
-    localStorage.setItem("uid", user.id);
-  }
-
+function processResponse(state, { payload: { status, data: { user } = { }, error } }) {
   return {
     status,
-    user,
-    jwt,
-    loggedIn: !!jwt,
+    data: user ? user.profile : null,
     error
-  }
+  };
 }
 
 export default handleActions({
-  "signin/STATUS": (state, action) => {
-    return processResponse(action);
-  },
-  "signup/STATUS": (state, action) => {
-    return processResponse(action);
-  },
-  "signout/STATUS": (state, { payload: { status, error } }) => {
-    if(status == 2) {
-      localStorage.removeItem("jwt");
-      localStorage.removeItem("uid");
-    }
-
+  "profile/edit/STATUS": (state, { payload: { status, data, error } }) => {
     return {
       status,
-      user: null,
-      jwt: null,
-      loggedIn: false,
+      data,
       error
-    }
+    };
   },
-  "forgotPassword/STATUS": (state, action) => {
-    return processResponse(action);
-  },
-  "changePassword/STATUS": (state, action) => {
-    return processResponse(action);
-  },
-  "fetchUser/STATUS": (state, action) => {
-    return processResponse(action);
-  },
-}, { status: 0, user: null, jwt: jwt, loggedIn: !!jwt });
+
+  "signin/STATUS": processResponse,
+  "signup/STATUS": processResponse,
+  "forgotPassword/STATUS": processResponse,
+  "changePassword/STATUS": processResponse,
+  "fetchUser/STATUS": processResponse
+}, { status: 0, data: null });

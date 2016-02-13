@@ -11,8 +11,7 @@ import AuthLink from "../../auth/headerLink";
 import ProfileLink from "../../profile/headerLink";
 
 const links = [
-  require("../../posts").headerLink,
-  // require("../../auth/headerLink").default
+  require("../../posts").headerLink
 ];
 
 @connect(state => state)
@@ -45,7 +44,7 @@ export default class Header extends Component {
         </ul>
 
         <ul className="right">
-          {/*<li>Hello <ProfileLink/></li>*/}
+          <li>Hello <ProfileLink/></li>
           {status == 2 && data.map(({ title, route }) => <HeaderLink name={title} path={route}/>)}
           {links}
           <AuthLink/>

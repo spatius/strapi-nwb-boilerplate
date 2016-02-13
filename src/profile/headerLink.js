@@ -11,6 +11,9 @@ export default class ProfileLink extends Component {
   render() {
     const { auth: { status, loggedIn, user } } = this.props;
 
-    return <Link to="/profile">{status == 2 && loggedIn ? user.username : "Guest"}</Link>;
+    if(status == 2 && loggedIn)
+      return <Link to="/profile">{user.profile && user.profile.picture ? <img style={{ height: "32px", verticalAlign: "middle" }} src={"/upload/" + user.profile.picture}/> : ""}{user.username}</Link>;
+
+    return <Link to="/profile">Guest</Link>;
   }
 }

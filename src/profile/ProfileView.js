@@ -12,15 +12,15 @@ import ProfileForm from "./ProfileForm";
 @authenticated()
 @connect(state => state, actions)
 @propTypes({
-  profile: PropTypes.func.isRequired
+  edit: PropTypes.func.isRequired
 })
 export default class ProfileView extends Component {
   render() {
-    const { profile } = this.props;
+    const { edit } = this.props;
 
     return (
       <div className="profile">
-        <ProfileForm submit={profile} submitting={false}/>
+        <ProfileForm submit={edit} submitting={false}/>
       </div>
     );
   }

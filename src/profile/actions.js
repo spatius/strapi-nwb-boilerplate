@@ -1,7 +1,7 @@
 import { createAction } from 'redux-actions';
 import { routeActions } from 'react-router-redux';
 
-import { get, post } from "../fetch";
+import { get, post, put } from "../fetch";
 
 const editStatus = createAction("profile/edit/STATUS");
 
@@ -29,13 +29,16 @@ function parseError(error) {
   return result;
 }
 
-function edit({ email, password }) {
+function edit(data) {
   return (dispatch, getState) => {
-    dispatch(signinStatus({ status: 1 }));
+    dispatch(editStatus({ status: 1 }));
 
-    return post("/api/profile", { identifier: email, password })
-    .then(data => {
-      dispatch(signinStatus({ status: 2, data }));
+    return (
+      !data.id
+        ? post("/api/profile", data)
+        : put("/api/profile/" + data.id, data)
+    ).then(data => {
+      dispatch(editStatus({ status: 2, data }));
 
       return data;
     })
@@ -44,7 +47,7 @@ function edit({ email, password }) {
         _error: "Edit failed!"
       }, parseError(error));
 
-      dispatch(signinStatus({ status: 3, error }));
+      dispatch(editStatus({ status: 3, error }));
 
       throw error;
     });

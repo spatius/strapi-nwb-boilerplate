@@ -45,7 +45,7 @@ function showErrors(array) {
 @css(require("./ChangePasswordForm.css"), { allowMultiple: true })
 export default class ChangePasswordForm extends Component {
   render() {
-    const { fields: { token, password, password2 }, handleSubmit, submit, submitting, error } = this.props;
+    const { fields: { password, password2 }, handleSubmit, submit, submitting, error } = this.props;
 
     return (
       <form styleName="root" className="forms" onSubmit={handleSubmit(submit)}>

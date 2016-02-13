@@ -14,6 +14,7 @@ input[type="text"],
 input[type="tel"],
 input[type="url"],
 input[type="password"],
+input[type="date"],
 textarea,
 select {
 	font-family: @font-family-base;
@@ -39,7 +40,8 @@ input[type="search"],
 input[type="text"],
 input[type="tel"],
 input[type="url"],
-input[type="password"] {
+input[type="password"],
+input[type="date"] {
 	-webkit-appearance: none;
 }
 select[multiple],
@@ -98,7 +100,8 @@ legend {
 	& input[type="text"],
 	& input[type="tel"],
 	& input[type="url"],
-	& input[type="password"] {
+	& input[type="password"],
+	& input[type="date"] {
 		width: 100%;
 		display: block;
 	}
@@ -164,6 +167,7 @@ legend {
 		& input[type="tel"],
 		& input[type="url"],
 		& input[type="password"],
+		& input[type="date"],
 		& .tools-select {
 			width: auto;
 			display: inline-block;

@@ -1,4 +1,15 @@
+window.addEventListener("dragover", function(e) {
+  e = e || event;
+  e.preventDefault();
+}, false);
+
+window.addEventListener("drop", function(e) {
+  e = e || event;
+  e.preventDefault();
+}, false);
+
 import "./kube/kube.less";
+import 'react-date-picker/index.css';
 // import "bootstrap-css-only/css/bootstrap.css";
 // import "./index.css";
 
@@ -31,7 +42,7 @@ const rootReducer = combineReducers({
   auth: require("./auth/reducers"),
   pages: require("./page/reducers"),
   posts: require("./posts/reducers"),
-  // profile: require("./profile/reducers")
+  profile: require("./profile/reducers")
 });
 
 const crashReporter = store => next => action => {
@@ -80,7 +91,7 @@ import Layout from "./layout";
 
 const routes = [
   require("./home").route,
-  // ...require("./profile/routes"),
+  ...require("./profile/routes"),
   ...require("./posts").route,
   ...require("./auth/routes"),
   require("./notFound").route,
