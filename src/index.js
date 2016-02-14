@@ -93,6 +93,7 @@ const routes = [
   require("./home").route,
   ...require("./profile/routes"),
   ...require("./posts").route,
+  ...require("./ifv/routes"),
   ...require("./auth/routes"),
   require("./notFound").route,
   ...require("./page/routes"),

@@ -61,6 +61,10 @@
     "profile": {
       "model": "profile",
       "via": "user"
+    },
+    "pollincome": {
+      "model": "pollincome",
+      "via": "user"
     }
   },
   "autoCreatedAt": true,

@@ -1,0 +1,14 @@
+{
+  "default": {
+    "attributes": {
+      "salaryMonthly": {},
+      "clubContractYearly": {},
+      "sponsorshipYearly": {},
+      "rewardsYearly": {},
+      "propertyRentalMonthly": {},
+      "otherIncomeMonthly": {},
+      "score": {}
+    },
+    "displayedAttribute": "salarymonthly"
+  }
+}

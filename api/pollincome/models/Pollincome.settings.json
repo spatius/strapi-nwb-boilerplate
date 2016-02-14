@@ -1,0 +1,53 @@
+{
+  "identity": "pollincome",
+  "connection": "pg",
+  "defaultTemplate": "default",
+  "displayedAttribute": "",
+  "schema": true,
+  "attributes": {
+  "salaryMonthly": {
+    "type": "float"
+  },
+  "clubContractYearly": {
+    "type": "float"
+  },
+  "sponsorshipYearly": {
+    "type": "float"
+  },
+  "rewardsYearly": {
+    "type": "float"
+  },
+  "propertyRentalMonthly": {
+    "type": "string"
+  },
+  "otherIncomeMonthly": {
+    "type": "float"
+  },
+  "score": {
+    "type": "string"
+  },
+  "lang": {
+    "type": "string",
+    "required": true
+  },
+  "template": {
+    "type": "string",
+    "required": true
+  },
+  "id_ref": {
+    "type": "int"
+  },
+  "createdBy": {
+    "model": "user"
+  },
+  "updatedBy": {
+    "model": "user"
+  },
+  "user": {
+    "model": "user",
+    "via": "pollincome"
+  }
+},
+  "autoCreatedAt": true,
+  "autoUpdatedAt": true
+}
