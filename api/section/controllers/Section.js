@@ -1,15 +1,15 @@
 'use strict';
 
-const model = 'pollcategory';
+const model = 'section';
 
 /**
- * A set of functions called "actions" for `Pollcategory`
+ * A set of functions called "actions" for `Section`
  */
 
 module.exports = {
 
   /**
-   * Get Pollcategory entries.
+   * Get Section entries.
    *
    * @return {Object|Array}
    */
@@ -25,7 +25,7 @@ module.exports = {
   },
 
   /**
-   * Get a specific Pollcategory.
+   * Get a specific Section.
    *
    * @return {Object|Array}
    */
@@ -41,7 +41,7 @@ module.exports = {
   },
 
   /**
-   * Create a Pollcategory entry.
+   * Create a Section entry.
    *
    * @return {Object}
    */
@@ -57,7 +57,7 @@ module.exports = {
   },
 
   /**
-   * Update a Pollcategory entry.
+   * Update a Section entry.
    *
    * @return {Object}
    */
@@ -73,7 +73,7 @@ module.exports = {
   },
 
   /**
-   * Destroy a Pollcategory entry.
+   * Destroy a Section entry.
    *
    * @return {Object}
    */
@@ -89,7 +89,7 @@ module.exports = {
   },
 
   /**
-   * Add an entry to a specific Pollcategory.
+   * Add an entry to a specific Section.
    *
    * @return {Object}
    */
@@ -105,7 +105,7 @@ module.exports = {
   },
 
   /**
-   * Remove a specific entry from a specific Pollcategory.
+   * Remove a specific entry from a specific Section.
    *
    * @return {Object}
    */

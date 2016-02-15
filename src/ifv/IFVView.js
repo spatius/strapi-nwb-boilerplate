@@ -12,15 +12,15 @@ import IFVForm from "./IFVForm";
 @authenticated()
 @connect(state => state, actions)
 @propTypes({
-  edit: PropTypes.func.isRequired
+  saveSection: PropTypes.func.isRequired
 })
 export default class IFVView extends Component {
   render() {
-    const { edit } = this.props;
+    const { saveSection } = this.props;
 
     return (
       <div className="ifv">
-        <IFVForm submit={edit} />
+        <IFVForm submit={saveSection} />
       </div>
     );
   }

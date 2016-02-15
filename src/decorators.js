@@ -54,7 +54,7 @@ export function waitFor(select) {
     class Wait extends React.Component {
       render() {
         const fields = select(this.props);
-        console.log(fields);
+        // console.log(fields);
         if(fields.filter(item => !item).length)
         return (
           <Preloader size={10}/>

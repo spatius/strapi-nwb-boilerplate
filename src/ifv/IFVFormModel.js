@@ -3,32 +3,44 @@ export const section1 =  {
     label: "Mesecna placa",
     helpText: "Vnesite mesecno placo",
     required: false,
-    question: {
-      type: "range",
-      from: 0,
-      to: 50000,
-      defaultValue: 4000
-    }
+    type: "range",
+    props: {
+      min: 0,
+      max: 50000
+    },
+    value: 4000
   },
   clubContractYearly: {
     label: "Pogodba s klubom (letno)",
     helpText: "Vnesite pogodbo",
     required: true,
-    question: {
-      type: "range",
-      from: 0,
-      to: 50000000,
-      defaultValue: 40000
-    }
+    type: "range",
+    props: {
+      min: 0,
+      max: 50000000
+    },
+    value: 40000
   },
   monthlySpendingHabit: {
     label: "Svoj osebni proračun imam pod kontrolo, tako da vsak mesec zapravim manj kot zaslužim",
     helpText: "",
     required: true,
-    question: {
-      type: "list",
-      options: ["Da", "Ne"],
-      defaultValue: 0
-    }
+    type: "radio-list",
+    props: {
+      items: [
+        { label: "Da", value: "DA" },
+        { label: "Ne", value: "NE" }
+      ]
+    },
+    value: "NE"
+  },
+  abc: {
+    label: "abc",
+    helpText: "",
+    required: true,
+    type: "text",
+    props: {
+    },
+    value: "abc abc"
   }
 }

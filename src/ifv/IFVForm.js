@@ -1,101 +1,96 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component, PropTypes, createElement } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { propTypes } from 'react-props-decorators';
-import RadioGroup from 'react-radio';
-import DatePicker from 'react-date-picker';
-import moment from "moment";
 import css from 'react-css-modules';
+import _ from "lodash";
+
 import { waitFor } from "../decorators";
+import DynamicForm from "../DynamicForm";
+
 import actions from "./actions";
 import {section1} from "./IFVFormModel";
-import Slider from 'rc-slider';
-import 'rc-slider/assets/index.css';
 
-
-const validate = (values, {fields}) => {
-  const errors = {};
-  console.log("VVVVVVV", fields)
-  fields.forEach(key => {
-    console.log("VALIDATE", key, section1);
-    if(!values[key] && section1[key].required)
-      errors[key] = ["required"];
-  });
-
-  return errors;
-
-};
-
-function showErrors(array) {
-  if(!array)
-    return "";
-
-  if(array instanceof Array)
-    return "is " + array.join(" and ");
-
-  return "is " + array;
+function handleSubmit(key) {
+  return (data) => submit(key, data);
 }
 
-function renderElement(element, field){
-  // return <input type="text" {...field}/>;
-  if(element.question.type == "range"){
-    return <Slider defaultValue={element.question.defaultValue} min={element.question.from} max={element.question.to} step="100" />
-  }
-  else if(element.question.type == "list"){
-
-  }
-  else{
-    return <input type="text" {...field}/>
-  }
-}
-
-@waitFor(({ profile }) => [ profile.data ])
-@reduxForm({
-  form: "ifv",
-  fields: ["salaryMonthly", "clubContractYearly", "monthlySpendingHabit"],
-  validate
-}, ({ profile: { data } = {} }) => ({ initialValues: data }))
+@waitFor(({ ifv }) => [ ifv.data ])
 @connect(state => state, actions)
-@propTypes({
-  handleSubmit: PropTypes.func,
-  resetForm: PropTypes.func.isRequired,
-  submitting: PropTypes.bool
-})
 @css(require("./IFVForm.less"), { allowMultiple: true })
 export default class IFVForm extends Component {
-
   render() {
-    const { handleSubmit, resetForm, submit, submitting, error, router: { location: { query } } } = this.props;
-    const fields = this.props.fields;
+    const { ifv, submit } = this.props;
+    const formData = this.props.form;
+
+    const forms = [
+      {
+        key: "section1",
+        title: "Section 1",
+        model: section1,
+        data: ifv.data.section1,
+        fields: ["id", "salaryMonthly", "clubContractYearly", "monthlySpendingHabit", "abc"],
+        amount: function({ salaryMonthly, clubContractYearly, monthlySpendingHabit }) {
+          return (salaryMonthly + clubContractYearly) * (monthlySpendingHabit == "DA" ? 50 : 1);
+        }
+      },
+      {
+        key: "section2",
+        title: "Section 2",
+        model: section1,
+        data: ifv.data.section2,
+        fields: ["id", "salaryMonthly", "clubContractYearly", "monthlySpendingHabit", "abc"],
+        amount: function({ salaryMonthly, clubContractYearly, monthlySpendingHabit }) {
+          return (salaryMonthly + clubContractYearly) * (monthlySpendingHabit == "DA" ? 50 : 1);
+        }
+      }
+    ];
+
     return (
-      <row className="centered">
-        <column cols="10">
-          <form styleName="root" className="forms" onSubmit={handleSubmit(submit)}>
-            {error && <div className="alert alert-error">{error}</div>}
-            {Object.keys(fields).map(key => {
-              let element = section1[key];
-              return(
+      <div styleName="root">
+        <row className="centered">
+          <column cols="7">
+            {forms.map(props => (
+              <DynamicForm
+                form={props.key}
+                submit={handleSubmit(props.key)}
+                {...props}/>
+            ))}
+          </column>
 
-                <section>
-                  <label>{element.label} {fields[key].error && <span className="error">{showErrors(fields[key].error)}</span>}</label>
-                  {renderElement(element, fields[key])}
-                </section>
-            )})}
+          <column cols="5">
+            <fieldset>
+              <legend>Izračun</legend>
 
-
-            <p>
-              <button styleName="reset" disabled={submitting} onClick={resetForm}>
-                {submitting ? <i/> : <i/>} Reset
-              </button>
-
-              <button type="primary" styleName="submit" disabled={submitting}>
-                {submitting ? <i/> : <i/>} Save
-              </button>
-            </p>
-          </form>
-        </column>
-      </row>
+              <table className="table-bordered">
+                <thead>
+                  <tr>
+                    <th>Section</th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {forms.map(({ key, title, fields, amount }) => (
+                    <tr>
+                      <td>{title}</td>
+                      <td>{amount(_.mapValues(_.pick(formData[key], fields), "value"))}</td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colSpan="1">Total</td>
+                    <td>{forms.reduce((memo, { key, fields, amount }) => {
+                      return memo + amount(_.mapValues(_.pick(formData[key], fields), "value"));
+                    }, 0)}</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </fieldset>
+          </column>
+        </row>
+      </div>
     );
   }
 }

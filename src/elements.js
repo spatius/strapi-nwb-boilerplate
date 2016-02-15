@@ -1,6 +1,6 @@
 import "./elements.less";
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component, PropTypes, createElement } from 'react';
 import { Link, IndexLink } from 'react-router';
 import { propTypes, contextTypes } from 'react-props-decorators';
 
@@ -29,7 +29,7 @@ export class HeaderLink extends Component {
     return (
       <li>{!!path && router.isActive(path, index)
         ? name
-        : React.createElement(element, {
+        : createElement(element, {
             className,
             to: { pathname: path || "/", query: query || {} },
             onClick: handleClick

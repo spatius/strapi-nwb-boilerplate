@@ -26,7 +26,7 @@ function buildBreadcrumbs([ root, current ], page) {
 
 @connect(
   state => state,
-  Object.assign({}, require("../auth/actions"), require("../page/actions"))
+  Object.assign({}, require("../auth/actions"), require("../page/actions"), require("../ifv/actions"))
 )
 @propTypes({
   auth: PropTypes.object.isRequired,
@@ -34,20 +34,23 @@ function buildBreadcrumbs([ root, current ], page) {
   pages: PropTypes.object.isRequired,
   routes: PropTypes.array.isRequired,
   fetchUser: PropTypes.func.isRequired,
-  fetchPages: PropTypes.func.isRequired
+  fetchPages: PropTypes.func.isRequired,
+  fetchSections: PropTypes.func.isRequired
 })
 @contextTypes({
   router: PropTypes.object.isRequired
 })
 export default class Layout extends Component {
   componentDidMount() {
-    const { auth: { loggedIn, user }, pages: { status }, fetchUser, fetchPages } = this.props;
+    const { auth: { loggedIn, user }, pages: { status }, fetchUser, fetchPages, fetchSections } = this.props;
 
     if(loggedIn && !user)
       fetchUser();
 
     if(status == 0)
       fetchPages();
+
+    fetchSections();
   }
 
   render() {

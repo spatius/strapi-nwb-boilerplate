@@ -14,11 +14,11 @@ const anchor = require('anchor');
 // Local dependencies.
 const WLValidationError = require('../../../node_modules/waterline/lib/waterline/error/WLValidationError');
 
-// Settings for the Pollincome model.
-const settings = require('./Pollincome.settings.json');
+// Settings for the Section model.
+const settings = require('./Section.settings.json');
 
 /**
- * Export the Pollincome model
+ * Export the Section model
  */
 
 module.exports = {

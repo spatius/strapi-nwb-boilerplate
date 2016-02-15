@@ -42,7 +42,8 @@ const rootReducer = combineReducers({
   auth: require("./auth/reducers"),
   pages: require("./page/reducers"),
   posts: require("./posts/reducers"),
-  profile: require("./profile/reducers")
+  profile: require("./profile/reducers"),
+  ifv: require("./ifv/reducers")
 });
 
 const crashReporter = store => next => action => {

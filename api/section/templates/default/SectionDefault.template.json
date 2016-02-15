@@ -1,0 +1,13 @@
+{
+  "default": {
+    "attributes": {
+      "key": {
+        "required": true
+      },
+      "data": {
+        "required": true
+      }
+    },
+    "displayedAttribute": "key"
+  }
+}

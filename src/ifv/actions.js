@@ -1,11 +1,15 @@
 import { createAction } from 'redux-actions';
 import { routeActions } from 'react-router-redux';
+import _ from "lodash";
 
 import { get, post, put } from "../fetch";
 
-const editStatus = createAction("profile/edit/STATUS");
+const saveSectionStatus = createAction("ifv/save/STATUS");
+const fetchSectionsStatus = createAction("ifv/fetch/STATUS");
 
 function parseError(error) {
+  console.log("parseError", error);
+
   const { invalidAttributes } = error;
 
   var result = {};
@@ -29,25 +33,47 @@ function parseError(error) {
   return result;
 }
 
-function edit(data) {
+function saveSection(key, data) {
   return (dispatch, getState) => {
-    dispatch(editStatus({ status: 1 }));
+    dispatch(saveSectionStatus({ status: 1 }));
 
     return (
       !data.id
-        ? post("/api/pollincome", data)
-        : put("/api/pollincome/" + data.id, data)
+        ? post("/api/section", { key, data: JSON.stringify(data) })
+        : put("/api/section/" + data.id, { key, data: JSON.stringify(_.omit(data, "id")) })
     ).then(data => {
-      dispatch(editStatus({ status: 2, data }));
+      dispatch(saveSectionStatus({ status: 2, data }));
 
       return data;
     })
     .catch(error => {
       error = Object.assign({
-        _error: "Edit failed!"
+        _error: "Save Section failed!"
       }, parseError(error));
 
-      dispatch(editStatus({ status: 3, error }));
+      dispatch(saveSectionStatus({ status: 3, error }));
+
+      throw error;
+    });
+  }
+}
+
+function fetchSections() {
+  return (dispatch, getState) => {
+    dispatch(fetchSectionsStatus({ status: 1 }));
+
+    return get("/api/section")
+    .then(data => {
+      dispatch(fetchSectionsStatus({ status: 2, data }));
+
+      return data;
+    })
+    .catch(error => {
+      error = Object.assign({
+        _error: "Fetch sections failed!"
+      }, parseError(error));
+
+      dispatch(fetchSectionsStatus({ status: 3, error }));
 
       throw error;
     });
@@ -55,5 +81,6 @@ function edit(data) {
 }
 
 export default {
-  edit
+  saveSection,
+  fetchSections
 };

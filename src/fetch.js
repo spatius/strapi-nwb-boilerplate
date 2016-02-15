@@ -2,7 +2,7 @@ import fetch from 'isomorphic-fetch';
 import URI from "urijs";
 
 function process(response) {
-  console.log(response);
+  console.log("process", response);
 
   const promise = response.json();
 

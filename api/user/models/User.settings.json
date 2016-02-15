@@ -62,9 +62,9 @@
       "model": "profile",
       "via": "user"
     },
-    "pollincome": {
-      "model": "pollincome",
-      "via": "user"
+    "sections": {
+      "collection": "section",
+      "via": "contributors"
     }
   },
   "autoCreatedAt": true,

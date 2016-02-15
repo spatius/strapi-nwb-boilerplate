@@ -1,59 +1,7 @@
 @import (reference) '../kube/kube.less';
 
 :local .root {
-  max-width: 648px;
-  margin: auto;
-  margin-bottom: 64px;
-  padding: 0 16px;
-}
-
-:local .reset {
-  .width-4;
-}
-
-:local .submit {
-  .width-4;
-
-  float: right;
-}
-
-.dropzone-input {
-  .vertical-align;
-  .text-centered;
-
-  cursor: pointer;
-
-  width: 100%;
-  height: 200px;
-
-  margin-bottom: 0;
-  padding: 0.9rem 1rem;
-
-  border: 1px solid #dfdfdf;
-  border-radius: 2px;
-
-  background: #fff;
-  color: rgba(0, 0, 0, 0.85);
-
-  line-height: 1.5;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 1.4rem;
-}
-
-.dropzone-input-active {
-  .input-success;
-
-  margin-top: 0px;
-}
-
-.dropzone-input-reject {
-  .input-error;
-
-  margin-top: 0px;
-}
-
-.react-dots-loader {
-  .text-centered;
-
-  display: block !important;
+  & > row {
+    max-width: 920px;
+  }
 }

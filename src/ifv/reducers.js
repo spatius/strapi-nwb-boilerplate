@@ -1,25 +1,31 @@
 import { handleActions } from 'redux-actions';
 
-function processResponse(state, { payload: { status, data: { user } = { }, error } }) {
-  return {
-    status,
-    data: user ? user.profile : null,
-    error
-  };
-}
-
 export default handleActions({
-  "profile/edit/STATUS": (state, { payload: { status, data, error } }) => {
+  "ifv/save/STATUS": (state, { payload: { status, data, error } }) => {
     return {
       status,
-      data,
+      data: data ? {
+        [data.key]: {
+          id: data.id,
+          ...data.data
+        }
+      } : null,
       error
     };
   },
 
-  "signin/STATUS": processResponse,
-  "signup/STATUS": processResponse,
-  "forgotPassword/STATUS": processResponse,
-  "changePassword/STATUS": processResponse,
-  "fetchUser/STATUS": processResponse
+  "ifv/fetch/STATUS": (state, { payload: { status, data, error } }) => {
+    return {
+      status,
+      data: data ? data.reduce((memo, value) => {
+        memo[value.key] = {
+          id: value.id,
+          ...value.data
+        };
+
+        return memo;
+      }, {}) : null,
+      error
+    };
+  }
 }, { status: 0, data: null });
