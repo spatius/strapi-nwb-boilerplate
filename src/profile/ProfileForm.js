@@ -62,7 +62,7 @@ function showErrors(array) {
   return "is " + array;
 }
 
-@waitFor(({ profile }) => [ profile.data ])
+// @waitFor(({ profile }) => [ profile.data ])
 @reduxForm({
   form: "profile",
   fields: ["id", "firstName", "midName", "lastName", 'address1', 'address2', 'city', /*"region",*/ "phone", "bio", "picture", "sex", "birthday"],

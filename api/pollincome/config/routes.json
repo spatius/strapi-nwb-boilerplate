@@ -1,0 +1,57 @@
+{
+  "routes": {
+    "GET /pollincome": {
+      "controller": "Pollincome",
+      "action": "find",
+      "policies": [
+        "isAuthorized"
+      ]
+    },
+    "GET /pollincome/:id": {
+      "controller": "Pollincome",
+      "action": "findOne",
+      "policies": [
+        "isAuthorized"
+      ]
+    },
+    "POST /pollincome": {
+      "controller": "Pollincome",
+      "action": "create",
+      "policies": [
+        "isAuthorized",
+        "addDataCreate"
+      ]
+    },
+    "PUT /pollincome/:id": {
+      "controller": "Pollincome",
+      "action": "update",
+      "policies": [
+        "isAuthorized",
+        "addDataUpdate"
+      ]
+    },
+    "DELETE /pollincome/:id": {
+      "controller": "Pollincome",
+      "action": "destroy",
+      "policies": [
+        "isAuthorized"
+      ]
+    },
+    "POST /pollincome/:parentId/:relation": {
+      "controller": "Pollincome",
+      "action": "add",
+      "policies": [
+        "isAuthorized",
+        "addDataCreate"
+      ]
+    },
+    "DELETE /pollincome/:parentId/:relation/:id": {
+      "controller": "Pollincome",
+      "action": "remove",
+      "policies": [
+        "isAuthorized",
+        "addDataUpdate"
+      ]
+    }
+  }
+}
