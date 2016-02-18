@@ -12,24 +12,24 @@ import DynamicForm from "../DynamicForm";
 import actions from "./actions";
 import {section1} from "./IFVFormModel";
 
-function handleSubmit(key) {
-  return (data) => submit(key, data);
-}
-
-@waitFor(({ ifv }) => [ ifv.data ])
+@waitFor(({ api: { sections } }) => [ sections.data ])
 @connect(state => state, actions)
 @css(require("./IFVForm.less"), { allowMultiple: true })
 export default class IFVForm extends Component {
   render() {
-    const { ifv, submit } = this.props;
+    const { api: { sections }, submit } = this.props;
     const formData = this.props.form;
+
+    function handleSubmit(key) {
+      return (data) => submit(key, data);
+    }
 
     const forms = [
       {
         key: "section1",
         title: "Section 1",
         model: section1,
-        data: ifv.data.section1,
+        data: sections.data.section1,
         fields: ["id", "salaryMonthly", "clubContractYearly", "monthlySpendingHabit", "abc"],
         amount: function({ salaryMonthly, clubContractYearly, monthlySpendingHabit }) {
           return (salaryMonthly + clubContractYearly) * (monthlySpendingHabit == "DA" ? 50 : 1);
@@ -39,7 +39,7 @@ export default class IFVForm extends Component {
         key: "section2",
         title: "Section 2",
         model: section1,
-        data: ifv.data.section2,
+        data: sections.data.section2,
         fields: ["id", "salaryMonthly", "clubContractYearly", "monthlySpendingHabit", "abc"],
         amount: function({ salaryMonthly, clubContractYearly, monthlySpendingHabit }) {
           return (salaryMonthly + clubContractYearly) * (monthlySpendingHabit == "DA" ? 50 : 1);

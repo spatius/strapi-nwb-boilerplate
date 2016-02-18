@@ -4,21 +4,21 @@
       "controller": "Profile",
       "action": "find",
       "policies": [
-        "isAuthorized"
+        "authenticated"
       ]
     },
     "GET /profile/:id": {
       "controller": "Profile",
       "action": "findOne",
       "policies": [
-        "isAuthorized"
+        "authenticated"
       ]
     },
     "POST /profile": {
       "controller": "Profile",
       "action": "create",
       "policies": [
-        "isAuthorized",
+        "authenticated",
         "addDataCreate"
       ]
     },
@@ -26,7 +26,7 @@
       "controller": "Profile",
       "action": "update",
       "policies": [
-        "isAuthorized",
+        "authenticated",
         "addDataUpdate"
       ]
     },

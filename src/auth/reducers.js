@@ -1,26 +1,22 @@
-import { handleActions } from 'redux-actions';
-
-const jwt = localStorage.getItem("jwt");
-
-function processResponse(state, { payload: { status, data: { user, jwt } = { }, error } }) {
+function processResponse(state, { status, data, jwt, error }) {
   if(status == 2) {
     localStorage.setItem("jwt", jwt);
-    localStorage.setItem("uid", user.id);
+    localStorage.setItem("uid", data.id);
   }
 
   return {
     status,
-    user,
+    data,
     jwt,
     loggedIn: !!jwt,
     error
   };
 }
 
-export default handleActions({
-  "signin/STATUS": processResponse,
-  "signup/STATUS": processResponse,
-  "signout/STATUS": (state, { payload: { status, error } }) => {
+export default ["user", {
+  "signin": processResponse,
+  "signup": processResponse,
+  "signout": (state, { status, error }) => {
     if(status == 2) {
       localStorage.removeItem("jwt");
       localStorage.removeItem("uid");
@@ -28,26 +24,33 @@ export default handleActions({
 
     return {
       status,
-      user: null,
+      data: null,
       jwt: null,
       loggedIn: false,
       error
     };
   },
-  "forgotPassword/STATUS": processResponse,
-  "changePassword/STATUS": processResponse,
-  "fetchUser/STATUS": processResponse,
+  "forgotPassword": processResponse,
+  "changePassword": processResponse,
+  "user": processResponse,
 
-  "profile/edit/STATUS": (state, { payload: { status, data, error } }) => {
+  "saveProfile": (state, { status, data, error }) => {
     if(status != 2)
       return state;
 
     return {
       ...state,
-      user: {
-        ...state.user,
+      data: {
+        ...state.data,
         profile: data
       }
     };
   }
-}, { status: 0, user: null, jwt: jwt, loggedIn: !!jwt });
+}, () => {
+  const jwt = localStorage.getItem("jwt");
+
+  return {
+    jwt,
+    loggedIn: !!jwt
+  };
+}];

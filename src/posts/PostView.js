@@ -2,13 +2,12 @@ import "./index.css";
 
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router';
+import { connect } from 'react-redux';
 
 import { HeaderLink } from "../elements";
 import { authenticated } from "../decorators";
-import { get, post } from "../fetch";
-import actions from "./actions";
-import { connect } from 'react-redux';
 
+import actions from "./actions";
 
 @connect(state => state, actions)
 export default class PostView extends Component {

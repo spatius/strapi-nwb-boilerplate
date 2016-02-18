@@ -6,7 +6,7 @@ import { propTypes } from 'react-props-decorators';
 import { routeActions } from 'react-router-redux';
 import Preloader from 'react-dots-loader';
 
-function canShow(yes, { auth: { status, loggedIn } }) {
+function canShow(yes, { api: { user: { status, loggedIn } } }) {
   return status == 1 || yes == loggedIn;
 }
 

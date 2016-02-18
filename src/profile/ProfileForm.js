@@ -19,7 +19,7 @@ import { upload } from "../fetch";
 const validate = values => {
   const errors = {};
 
-  ["firstName", "lastName", 'address1', 'city', /*"region",*/ "phone", "sex", "birthday"].forEach(key => {
+  ["firstName", "lastName", 'address1', 'city', /*"region",*/ "phone", "gender", "birthday"].forEach(key => {
     if(!values[key])
       errors[key] = ["required"];
   });
@@ -65,9 +65,9 @@ function showErrors(array) {
 // @waitFor(({ profile }) => [ profile.data ])
 @reduxForm({
   form: "profile",
-  fields: ["id", "firstName", "midName", "lastName", 'address1', 'address2', 'city', /*"region",*/ "phone", "bio", "picture", "sex", "birthday"],
+  fields: ["id", "firstName", "middleName", "lastName", 'address1', 'address2', 'city', /*"region",*/ "phone", "biography", "picture", "gender", "birthday"],
   validate
-}, ({ profile: { data } = {} }) => ({ initialValues: data }))
+}, ({ api: { profile: { data } = {} } }) => ({ initialValues: data }))
 @connect(state => state, actions)
 @propTypes({
   handleSubmit: PropTypes.func,
@@ -85,12 +85,11 @@ export default class ProfileForm extends Component {
   }
 
   onDrop(files) {
-    const { fields: { firstName, midName, lastName, address1, address2, city, /*region,*/ phone, bio, picture, sex, birthday }, handleSubmit, resetForm, submit, submitting, error, router: { location: { query } } } = this.props;
+    const { fields: { firstName, middleName, lastName, address1, address2, city, /*region,*/ phone, biography, picture, gender, birthday }, handleSubmit, resetForm, submit, submitting, error, router: { location: { query } } } = this.props;
 
     var data = new FormData;
     files.forEach(file => data.append("file", file));
     upload(data).then(r => {
-console.log(r[0][0].filename);
       picture.onChange(r[0][0].filename);
     }).catch(e => console.log("error", e));
 
@@ -100,7 +99,7 @@ console.log(r[0][0].filename);
   }
 
   render() {
-    const { fields: { firstName, midName, lastName, address1, address2, city, /*region,*/ phone, bio, picture, sex, birthday }, handleSubmit, resetForm, submit, submitting, error, router: { location: { query } } } = this.props;
+    const { fields: { firstName, middleName, lastName, address1, address2, city, /*region,*/ phone, biography, picture, gender, birthday }, handleSubmit, resetForm, submit, submitting, error, router: { location: { query } } } = this.props;
 
     return (
       <row className="centered">
@@ -118,8 +117,8 @@ console.log(r[0][0].filename);
                 </column>
 
                 <column cols="4">
-                  <label>Middle {midName.error && <span className="error">{showErrors(midName.error)}</span>}</label>
-                  <input type="text" {...midName}/>
+                  <label>Middle {middleName.error && <span className="error">{showErrors(middleName.error)}</span>}</label>
+                  <input type="text" {...middleName}/>
                 </column>
 
                 <column cols="4">
@@ -178,8 +177,8 @@ console.log(r[0][0].filename);
             </section>
 
             <section>
-              <label>Biography {bio.error && <span className="error">{showErrors(bio.error)}</span>}</label>
-              <textarea rows="6" {...bio}/>
+              <label>Biography {biography.error && <span className="error">{showErrors(biography.error)}</span>}</label>
+              <textarea rows="6" {...biography}/>
             </section>
 
             <section>
@@ -194,8 +193,8 @@ console.log(r[0][0].filename);
             </section>
 
             <section className="checkbox-list">
-              <label>Gender {sex.error && <span className="error">{showErrors(sex.error)}</span>}</label>
-              <RadioGroup name="gender" items={[{ label: "Male", value: "MALE" }, { label: "Female", value: "FEMALE" }, { label: "Other", value: "OTHER" }]} {...sex}/>
+              <label>Gender {gender.error && <span className="error">{showErrors(gender.error)}</span>}</label>
+              <RadioGroup name="gender" items={[{ label: "Male", value: "MALE" }, { label: "Female", value: "FEMALE" }, { label: "Other", value: "OTHER" }]} {...gender}/>
             </section>
 
             <section>

@@ -7,8 +7,8 @@ import { routeActions } from 'react-router-redux';
 
 @connect(state => state)
 @propTypes({
-  params: PropTypes.object.isRequired,
-  pages: PropTypes.object.isRequired
+  api: PropTypes.object.isRequired,
+  params: PropTypes.object.isRequired
 })
 export default class PageView extends Component {
   componentWillMount() {
@@ -19,7 +19,7 @@ export default class PageView extends Component {
     this.shouldRedirect(nextProps);
   }
 
-  shouldRedirect({ dispatch, params: { route }, pages: { status, data, error } }) {
+  shouldRedirect({ dispatch, params: { route }, api: { pages: { status, data, error } } }) {
     const page = status == 2 ? data.find(item => item.route.indexOf(route) > -1) : null;
     const content = page ? page.content : null;
 
@@ -28,7 +28,7 @@ export default class PageView extends Component {
   }
 
   render() {
-    const { params: { route }, pages: { status, data, error } } = this.props;
+    const { params: { route }, api: { pages: { status, data, error } } } = this.props;
 
     const page = status == 2 ? data.find(item => item.route.indexOf(route) > -1) : null;
     const content = page ? page.content : null;

@@ -2,17 +2,11 @@
   "routes": {
     "GET /tag": {
       "controller": "Tag",
-      "action": "find",
-      "policies": [
-        "isAuthorized"
-      ]
+      "action": "find"
     },
     "GET /tag/:id": {
       "controller": "Tag",
-      "action": "findOne",
-      "policies": [
-        "isAuthorized"
-      ]
+      "action": "findOne"
     },
     "POST /tag": {
       "controller": "Tag",

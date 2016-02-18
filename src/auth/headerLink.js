@@ -8,7 +8,7 @@ import actions from "./actions";
 
 @connect(state => state, actions)
 @propTypes({
-  auth: PropTypes.object.isRequired,
+  api: PropTypes.object.isRequired,
   signout: PropTypes.func.isRequired
 })
 @contextTypes({
@@ -16,7 +16,7 @@ import actions from "./actions";
 })
 export default class AuthLink extends Component {
   render() {
-    const { auth: { loggedIn }, signout, router: { location: { query } } } = this.props;
+    const { api: { user: { loggedIn } }, signout, router: { location: { query } } } = this.props;
     const { router } = this.context;
 
     if(loggedIn)

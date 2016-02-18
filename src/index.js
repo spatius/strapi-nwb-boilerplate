@@ -39,11 +39,7 @@ openSansObserver.check().then(() => {
 const rootReducer = combineReducers({
   router: routeReducer,
   form: formReducer,
-  auth: require("./auth/reducers"),
-  pages: require("./page/reducers"),
-  posts: require("./posts/reducers"),
-  profile: require("./profile/reducers"),
-  ifv: require("./ifv/reducers")
+  api: require("./api/reducers")
 });
 
 const crashReporter = store => next => action => {
@@ -69,12 +65,12 @@ function configureStore ({ initialState = {}, history }) {
   // let middleware = applyMiddleware(thunk, routerMiddleware, createLogger(), crashReporter);
   let middleware = applyMiddleware(thunk, routerMiddleware, crashReporter);
 
-  const devTools = window.devToolsExtension ? window.devToolsExtension() : f => f
-  middleware = compose(middleware, devTools)
+  const devTools = window.devToolsExtension ? window.devToolsExtension() : f => f;
+  middleware = compose(middleware, devTools);
 
   // Create final store and subscribe router in debug env ie. for devtools
-  const store = middleware(createStore)(rootReducer, initialState)
-  routerMiddleware.listenForReplays(store, ({ router }) => router.location)
+  const store = middleware(createStore)(rootReducer, initialState);
+  routerMiddleware.listenForReplays(store, ({ router }) => router.location);
 
   // if (module.hot) {
   //   module.hot.accept('./rootReducer', () => {
@@ -83,7 +79,7 @@ function configureStore ({ initialState = {}, history }) {
   //     store.replaceReducer(nextRootReducer)
   //   })
   // }
-  return store
+  return store;
 }
 
 const store = configureStore({history: browserHistory});

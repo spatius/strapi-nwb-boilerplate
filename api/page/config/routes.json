@@ -2,17 +2,11 @@
   "routes": {
     "GET /page": {
       "controller": "Page",
-      "action": "find",
-      "policies": [
-        "isAuthorized"
-      ]
+      "action": "find"
     },
     "GET /page/:id": {
       "controller": "Page",
-      "action": "findOne",
-      "policies": [
-        "isAuthorized"
-      ]
+      "action": "findOne"
     },
     "POST /page": {
       "controller": "Page",

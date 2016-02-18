@@ -16,8 +16,7 @@ const links = [
 
 @connect(state => state)
 @propTypes({
-  auth: PropTypes.object.isRequired,
-  pages: PropTypes.object.isRequired,
+  api: PropTypes.object.isRequired,
   breadcrumbs: PropTypes.array.isRequired,
   classes: PropTypes.object
 })
@@ -26,7 +25,7 @@ const links = [
 })
 export default class Header extends Component {
   render() {
-    var { auth: { loggedIn, user }, pages: { status, data, error }, breadcrumbs: [ brand, ...routes ], classes, children } = this.props;
+    var { api: { user: { loggedIn }, pages: { status, data, error } }, breadcrumbs: [ brand, ...routes ], classes, children } = this.props;
     const { router } = this.context;
     const breadcrumbs = [
       <HeaderLink className="brand" index {...brand}/>,

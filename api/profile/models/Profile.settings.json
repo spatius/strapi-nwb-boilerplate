@@ -11,7 +11,7 @@
     "lastName": {
       "type": "string"
     },
-    "midName": {
+    "middleName": {
       "type": "string"
     },
     "address1": {
@@ -26,17 +26,27 @@
     "phone": {
       "type": "string"
     },
-    "bio": {
+    "biography": {
       "type": "text"
     },
     "picture": {
       "type": "string"
     },
-    "sex": {
-      "type": "array"
+    "gender": {
+      "type": "string"
     },
     "birthday": {
       "type": "date"
+    },
+    "createdBy": {
+      "model": "user"
+    },
+    "updatedBy": {
+      "model": "user"
+    },
+    "user": {
+      "model": "user",
+      "via": "profile"
     },
     "lang": {
       "type": "string",
@@ -48,16 +58,6 @@
     },
     "id_ref": {
       "type": "int"
-    },
-    "createdBy": {
-      "model": "user"
-    },
-    "updatedBy": {
-      "model": "user"
-    },
-    "user": {
-      "model": "user",
-      "via": "profile"
     }
   },
   "autoCreatedAt": true,

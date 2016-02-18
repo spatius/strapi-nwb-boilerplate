@@ -2,12 +2,12 @@ import "./index.css";
 
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router';
+import { connect } from 'react-redux';
 
 import { HeaderLink } from "../elements";
 import { authenticated } from "../decorators";
-import { get, post } from "../fetch";
+
 import actions from "./actions";
-import { connect } from 'react-redux';
 import PostView from './PostView';
 
 // @authenticated()
@@ -19,7 +19,7 @@ class PostsView extends Component {
   }
 
   render() {
-    const {posts:{status, posts}} = this.props;
+    const { api: { posts: { status, posts } } } = this.props;
 
     return (
       <div className="posts">
@@ -34,7 +34,7 @@ class PostsView extends Component {
 
 
 export const headerLink = (
-  <HeaderLink name="Posts (protected)" path="/posts"/>
+  <HeaderLink name="Posts" path="/posts"/>
 );
 
 export const route = [

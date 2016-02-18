@@ -29,18 +29,18 @@ export function post(path, data) {
   }).then(process);
 }
 
-export function upload(data) {
-  return fetch("/api/upload", {
-    method: 'post',
-    headers: { Authorization: "Bearer " + localStorage.getItem("jwt") },
-    body: data
-  }).then(process);
-}
-
 export function put(path, data) {
   return fetch(path, {
     method: 'put',
     headers: { Accept: 'application/json', 'Content-Type': 'application/json', Authorization: "Bearer " + localStorage.getItem("jwt") },
     body: JSON.stringify(data)
+  }).then(process);
+}
+
+export function upload(data) {
+  return fetch("/api/upload", {
+    method: 'post',
+    headers: { Authorization: "Bearer " + localStorage.getItem("jwt") },
+    body: data
   }).then(process);
 }

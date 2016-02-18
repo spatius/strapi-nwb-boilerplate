@@ -5,14 +5,14 @@
         "required": true
       },
       "lastName": {},
-      "midName": {},
+      "middleName": {},
       "address1": {},
       "address2": {},
       "city": {},
       "phone": {},
-      "bio": {},
+      "biography": {},
       "picture": {},
-      "sex": {},
+      "gender": {},
       "birthday": {}
     },
     "displayedAttribute": "firstname"

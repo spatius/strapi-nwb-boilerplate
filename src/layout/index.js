@@ -29,22 +29,21 @@ function buildBreadcrumbs([ root, current ], page) {
   Object.assign({}, require("../auth/actions"), require("../page/actions"), require("../ifv/actions"))
 )
 @propTypes({
-  auth: PropTypes.object.isRequired,
+  api: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
-  pages: PropTypes.object.isRequired,
   routes: PropTypes.array.isRequired,
   fetchUser: PropTypes.func.isRequired,
   fetchPages: PropTypes.func.isRequired,
-  fetchSections: PropTypes.func.isRequired
+  fetchSections: PropTypes.func.isRequired,
 })
 @contextTypes({
   router: PropTypes.object.isRequired
 })
 export default class Layout extends Component {
   componentDidMount() {
-    const { auth: { loggedIn, user }, pages: { status }, fetchUser, fetchPages, fetchSections } = this.props;
+    const { api: { user, pages: { status } }, fetchUser, fetchPages, fetchSections } = this.props;
 
-    if(loggedIn && !user)
+    if(user.loggedIn && !user.data)
       fetchUser();
 
     if(status == 0)
@@ -54,7 +53,7 @@ export default class Layout extends Component {
   }
 
   render() {
-    const { auth: { loggedIn, user }, params: { route }, pages: { status, data }, routes, children } = this.props;
+    const { params: { route }, api: { pages: { status, data } }, routes, children } = this.props;
     const { router } = this.context;
 
     // TODO: Find out a better way

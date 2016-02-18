@@ -1,7 +1,5 @@
-import { handleActions } from 'redux-actions';
-
-export default handleActions({
-  "ifv/save/STATUS": (state, { payload: { status, data, error } }) => {
+export default ["sections", {
+  "saveSection": (state, { status, data, error }) => {
     return {
       status,
       data: data ? {
@@ -14,7 +12,7 @@ export default handleActions({
     };
   },
 
-  "ifv/fetch/STATUS": (state, { payload: { status, data, error } }) => {
+  "sections": (state, { status, data, error }) => {
     return {
       status,
       data: data ? data.reduce((memo, value) => {
@@ -28,4 +26,4 @@ export default handleActions({
       error
     };
   }
-}, { status: 0, data: null });
+}];
