@@ -39,7 +39,8 @@ openSansObserver.check().then(() => {
 const rootReducer = combineReducers({
   router: routeReducer,
   form: formReducer,
-  api: require("./api/reducers")
+  api: require("./api/reducers"),
+  titles: require("./decorators").reducer
 });
 
 const crashReporter = store => next => action => {

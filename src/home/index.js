@@ -1,25 +1,19 @@
 import "./index.css";
 
-import React from 'react';
+import React, { Component } from 'react';
 import { IndexRoute } from 'react-router';
 import { connect } from 'react-redux';
 
-function HomeView({ dispatch, data }) {
-  const { projectName, ownerName } = data;
-
-  return (
-    <div className="home">
-    </div>
-  );
-}
-
-// REDUX: Which props do we want to inject, given the global state?
-function select(state) {
-  return {
-    data: state
-  };
+@connect(state => state)
+class HomeView extends Component {
+  render() {
+    return (
+      <div className="home">
+      </div>
+    );
+  }
 }
 
 export const route = (
-  <IndexRoute name="Blog" component={connect(select)(HomeView)} />
+  <IndexRoute name="Blog" component={HomeView} />
 );

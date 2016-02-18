@@ -2,6 +2,7 @@ import "./index.css";
 
 import React, { Component, PropTypes } from 'react';
 import { Route } from 'react-router';
+import { formatPattern } from 'react-router/lib/PatternUtils';
 // import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import { propTypes, contextTypes } from 'react-props-decorators';
@@ -10,7 +11,7 @@ import { Heading } from "../elements";
 
 import Header from "./header";
 
-function buildBreadcrumbs([ root, current ], page) {
+function buildBreadcrumbs([ root, current ], params, titles) {
   var list = [ { name: root.indexRoute.name, path: root.path } ];
 
   if(root.indexRoute === current)
@@ -18,9 +19,7 @@ function buildBreadcrumbs([ root, current ], page) {
 
   return [
     ...list,
-    !current.name
-      ? { name: page.title, path: page.route }
-      : { name: current.name, path: current.path }
+    { name: current.name || titles[current.nameKey] || "...", path: formatPattern(current.path, params) }
   ];
 }
 
@@ -40,10 +39,13 @@ function buildBreadcrumbs([ root, current ], page) {
   router: PropTypes.object.isRequired
 })
 export default class Layout extends Component {
+  // TODO: Move me out!
   componentDidMount() {
     const { api: { user, pages: { status } }, fetchUser, fetchPages, fetchSections } = this.props;
 
-    if(user.loggedIn && !user.data)
+    const jwt = localStorage.getItem("jwt");
+
+    if(!!jwt && !user.data)
       fetchUser();
 
     if(status == 0)
@@ -53,11 +55,10 @@ export default class Layout extends Component {
   }
 
   render() {
-    const { params: { route }, api: { pages: { status, data } }, routes, children } = this.props;
+    const { routes, params, titles, children } = this.props;
     const { router } = this.context;
 
-    // TODO: Find out a better way
-    const breadcrumbs = buildBreadcrumbs(routes, status == 2 && route && data.find(item => item.route.indexOf(route) > -1));
+    const breadcrumbs = buildBreadcrumbs(routes, params, titles);
 
     document.title = breadcrumbs.map(item => item.name).join(" / ");
 

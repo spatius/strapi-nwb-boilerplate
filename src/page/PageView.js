@@ -5,12 +5,38 @@ import { connect } from 'react-redux';
 import { propTypes } from 'react-props-decorators';
 import { routeActions } from 'react-router-redux';
 
-@connect(state => state)
+import { waitFor, title } from "../decorators";
+
+import actions from "./actions";
+
+@title("page", ({ api: { pages: { data } }, params: { route } }) => data ? data.find(item => item.route.indexOf(route) > -1).title : null)
+@waitFor(({ api: { pages } }) => [ pages.data ])
+@connect(state => state, actions)
 @propTypes({
   api: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired
 })
 export default class PageView extends Component {
+  componentWillMount() {
+    const { api: { pages: { data } }, params: { route }, fetchPage } = this.props;
+
+    fetchPage(data.find(item => item.route.indexOf(route) > -1).id);
+  }
+
+  render() {
+    return (
+      <Page/>
+    );
+  }
+}
+
+// @title("page", ({ api: { page: { data } } }) => data ? data.title : null)
+@waitFor(({ api: { page } }) => [ page.data ])
+@connect(state => state)
+@propTypes({
+  api: PropTypes.object.isRequired
+})
+class Page extends Component {
   componentWillMount() {
     this.shouldRedirect(this.props);
   }
@@ -19,29 +45,17 @@ export default class PageView extends Component {
     this.shouldRedirect(nextProps);
   }
 
-  shouldRedirect({ dispatch, params: { route }, api: { pages: { status, data, error } } }) {
-    const page = status == 2 ? data.find(item => item.route.indexOf(route) > -1) : null;
-    const content = page ? page.content : null;
-
-    if(status == 2 && !content)
+  shouldRedirect({ dispatch, api: { page: { data } } }) {
+    if(!data)
       dispatch(routeActions.replace("/404"));
   }
 
   render() {
-    const { params: { route }, api: { pages: { status, data, error } } } = this.props;
-
-    const page = status == 2 ? data.find(item => item.route.indexOf(route) > -1) : null;
-    const content = page ? page.content : null;
+    const { api: { page: { data } } } = this.props;
 
     return (
       <div className="page">
-        {status == 1
-          ? "Loading"
-          : status == 3
-            ? error
-            : content
-              ? <div dangerouslySetInnerHTML={{ __html: content }}/>
-              : "Page does not exist"}
+        <div dangerouslySetInnerHTML={{ __html: data.content }}/>
       </div>
     );
   }

@@ -4,6 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { propTypes } from 'react-props-decorators';
 import { routeActions } from 'react-router-redux';
+import { createAction, handleActions } from 'redux-actions';
 import Preloader from 'react-dots-loader';
 
 function canShow(yes, { api: { user: { status, loggedIn } } }) {
@@ -60,6 +61,43 @@ export function waitFor(select) {
           <Preloader size={10}/>
         );
 
+        return (
+          <Component {...this.props}/>
+        );
+      }
+    }
+  }
+}
+
+const titleChanged = createAction("titleChanged");
+
+export const reducer = handleActions({
+  titleChanged: (state, { payload: { key, title } }) => ({ ...state, [key]: title })
+}, {});
+
+export function title(key, select) {
+  return function(Component) {
+    return @connect(state => state)
+    class Title extends React.Component {
+      componentDidMount() {
+        const { dispatch, titles } = this.props;
+
+        const title = null;
+
+        if(title != titles[key])
+          dispatch(titleChanged({ key, title }));
+      }
+
+      componentWillReceiveProps(props) {
+        const { dispatch, titles } = props;
+
+        const title = select(props);
+
+        if(title != titles[key])
+          dispatch(titleChanged({ key, title }));
+      }
+
+      render() {
         return (
           <Component {...this.props}/>
         );

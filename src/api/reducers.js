@@ -13,27 +13,35 @@ export default handleActions({
   "api/STATUS": (state, { payload }) => {
     const action = _.omit(payload, "key");
 
-    return reducers.reduce((memo, [key, reducer]) => {
-      const r = reducer[payload.key];
+    return reducers.reduce((memo, object) => {
+      Object.keys(object).forEach(key => {
+        const reducer = object[key];
 
-      if(!r)
-        return memo;
+        const r = reducer[payload.key];
 
-      return {
-        ...memo,
-        [key]: r(memo[key] || {}, action)
-      };
+        if(!r)
+          return;
+
+        memo = {
+          ...memo,
+          [key]: r(memo[key] || {}, action)
+        };
+      });
+
+      return memo;
     }, state);
   }
-}, _.reduce(reducers, (memo, [key, reducer, defaultValue]) => {
-  if(!memo[key])
-    memo[key] = { status: 0 };
+}, _.reduce(reducers, (memo, object) => {
+  Object.keys(object).forEach(key => {
+    if(!memo[key])
+      memo[key] = { status: 0 };
+  });
 
-  if(defaultValue)
-    memo[key] = {
-      ...memo[key],
-      ...defaultValue()
-    };
+  // if(defaultValue)
+  //   memo[key] = {
+  //     ...memo[key],
+  //     ...defaultValue()
+  //   };
 
   return memo;
 }, {}));

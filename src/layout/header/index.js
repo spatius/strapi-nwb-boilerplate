@@ -25,7 +25,7 @@ const links = [
 })
 export default class Header extends Component {
   render() {
-    var { api: { user: { loggedIn }, pages: { status, data, error } }, breadcrumbs: [ brand, ...routes ], classes, children } = this.props;
+    var { api: { user: { loggedIn }, pages: { data } }, breadcrumbs: [ brand, ...routes ], classes, children } = this.props;
     const { router } = this.context;
     const breadcrumbs = [
       <HeaderLink className="brand" index {...brand}/>,
@@ -44,7 +44,7 @@ export default class Header extends Component {
 
         <ul className="right">
           <li>Hello <ProfileLink/></li>
-          {status == 2 && data.map(({ title, route }) => <HeaderLink name={title} path={route}/>)}
+          {data && data.map(({ title, route }) => <HeaderLink name={title} path={route}/>)}
           {links}
           <AuthLink/>
         </ul>

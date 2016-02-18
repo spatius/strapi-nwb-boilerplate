@@ -6,12 +6,14 @@ function processResponse(state, { status, data, error }) {
   };
 }
 
-export default ["profile", {
-  saveProfile: (state, action) => action,
+export default {
+  profile: {
+    saveProfile: (state, action) => action,
 
-  signin: processResponse,
-  signup: processResponse,
-  forgotPassword: processResponse,
-  changePassword: processResponse,
-  user: processResponse
-}];
+    signin: processResponse,
+    signup: processResponse,
+    forgotPassword: processResponse,
+    changePassword: processResponse,
+    user: processResponse
+  }
+};
