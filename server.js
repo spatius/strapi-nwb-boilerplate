@@ -3,19 +3,23 @@
 process.chdir(__dirname);
 
 var strapi = require("strapi");
+var fixtures = require('waterline-fixtures');
+
 var nwb = require("./hooks/nwb");
+var data = require("./fixtures");
 
 strapi.start({}, function(error, strapi) {
-  // Enable post graphql
-  // if (strapi.config.graphql.enabled === true) {
-  //   // Wait GraphQL schemas generation
-  //   // strapi.once('waterline:graphql:ready', function () {
-  //     strapi.router.post(strapi.config.graphql.route, strapi.middlewares.graphql({
-  //       schema: strapi.schemas,
-  //       pretty: true
-  //     }));
-  //   // });
-  // }
+  console.log("loading fixtures");
 
-  nwb(strapi);
+  fixtures.init({
+    collections: strapi.orm.collections,
+    fixtures: data
+  }, function(error) {
+    if(!error)
+      console.log("fixtures loaded");
+    else
+      console.log("fixtures error", error);
+
+    nwb(strapi);
+  });
 });
