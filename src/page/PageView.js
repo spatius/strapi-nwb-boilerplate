@@ -9,7 +9,17 @@ import { waitFor, title } from "../decorators";
 
 import actions from "./actions";
 
-@title("page", ({ api: { pages: { data } }, params: { route } }) => data ? data.find(item => item.route.indexOf(route) > -1).title : null)
+@title("page", ({ api: { pages: { data } }, params: { route } }) => {
+  if(!data)
+    return null;
+
+  const page = data.find(item => item.route.indexOf(route) > -1);
+
+  if(!page)
+    return null;
+
+  return page.title;
+})
 @waitFor(({ api: { pages } }) => [ pages.data ])
 @connect(state => state, actions)
 @propTypes({
@@ -20,7 +30,10 @@ export default class PageView extends Component {
   componentWillMount() {
     const { api: { pages: { data } }, params: { route }, fetchPage } = this.props;
 
-    fetchPage(data.find(item => item.route.indexOf(route) > -1).id);
+    const page = data.find(item => item.route.indexOf(route) > -1);
+
+    if(page)
+      fetchPage(page.id);
   }
 
   render() {
@@ -31,7 +44,7 @@ export default class PageView extends Component {
 }
 
 // @title("page", ({ api: { page: { data } } }) => data ? data.title : null)
-@waitFor(({ api: { page } }) => [ page.data ])
+@waitFor(({ api: { page } }) => [ page.status > 1 ])
 @connect(state => state)
 @propTypes({
   api: PropTypes.object.isRequired
