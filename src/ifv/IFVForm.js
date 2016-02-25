@@ -10,7 +10,7 @@ import { waitFor } from "../decorators";
 import DynamicForm from "../DynamicForm";
 
 import actions from "./actions";
-import {section1} from "./IFVFormModel";
+import { section1, section2 } from "./IFVFormModel";
 
 @waitFor(({ api: { sections } }) => [ sections.data ])
 @connect(state => state, actions)
@@ -38,9 +38,9 @@ export default class IFVForm extends Component {
       {
         key: "section2",
         title: "Section 2",
-        model: section1,
+        model: section2,
         data: sections.data.section2,
-        fields: ["id", "salaryMonthly", "clubContractYearly", "monthlySpendingHabit", "abc"],
+        fields: ["id", "salaryMonthly", "clubContractYearly", "monthlySpendingHabit"],
         amount: function({ salaryMonthly, clubContractYearly, monthlySpendingHabit }) {
           return (salaryMonthly + clubContractYearly) * (monthlySpendingHabit == "DA" ? 50 : 1);
         }

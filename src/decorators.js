@@ -8,7 +8,7 @@ import { createAction, handleActions } from 'redux-actions';
 import Preloader from 'react-dots-loader';
 
 function canShow(yes, { api: { user: { status, loggedIn } } }) {
-  return status == 1 || yes == loggedIn;
+  return status == 1 || yes == !!loggedIn;
 }
 
 function redirect(yes, path, props) {
